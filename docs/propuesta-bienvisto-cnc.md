@@ -288,10 +288,11 @@ Indicador (definición global)
 | Concepto | Costo mensual (COP) | Notas |
 |----------|---------------------|-------|
 | Programador | $4.000.000 | Desarrollo y mantenimiento |
-| **Total desarrollo** | **$4.000.000/mes** | |
+| Especialista en reputación | $4.000.000 | Conocimiento del dominio, validación de indicadores, acompañamiento metodológico |
+| **Total desarrollo** | **$8.000.000/mes** | |
 
-**Costo del prototipo (Fase 1):** $4.000.000 (1 mes)
-**Costo del MVP completo (Fase 1 + 2):** $12.000.000 (3 meses)
+**Costo del prototipo (Fase 1):** $8.000.000 (1 mes)
+**Costo del MVP completo (Fase 1 + 2):** $24.000.000 (3 meses)
 
 ### 7.2 Costos de infraestructura (producción)
 
@@ -332,19 +333,20 @@ El costo depende del proveedor y el volumen de uso:
 | Concepto | Escenario conservador (COP) | Escenario medio (COP) |
 |----------|---------------------------|----------------------|
 | Programador | $4.000.000 | $4.000.000 |
+| Especialista en reputación | $4.000.000 | $4.000.000 |
 | Infraestructura cloud | $280.000 | $600.000 |
 | APIs de IA | $43.000 | $258.000 |
-| **Total mensual** | **$4.323.000** | **$4.858.000** |
+| **Total mensual** | **$8.323.000** | **$8.858.000** |
 
 ### 7.5 Punto de equilibrio estimado
 
-Con el costo operativo mensual de ~$4.500.000 a $5.000.000:
+Con el costo operativo mensual de ~$8.500.000 a $9.000.000:
 
 | Si el plan Básico cuesta | Empresas necesarias para cubrir costos |
 |--------------------------|----------------------------------------|
-| $500.000/mes | 10 empresas |
-| $1.000.000/mes | 5 empresas |
-| $1.500.000/mes | 4 empresas |
+| $500.000/mes | 18 empresas |
+| $1.000.000/mes | 9 empresas |
+| $1.500.000/mes | 6 empresas |
 
 *Sin contar empresas en plan Free ni Premium. El punto de equilibrio es alcanzable con una fracción mínima del mercado del CNC.*
 
@@ -376,11 +378,11 @@ Con el costo operativo mensual de ~$4.500.000 a $5.000.000:
 
 | Paso | Responsable | Fecha estimada |
 |------|-------------|----------------|
-| Revisión y aprobación de esta propuesta | CNC + Equipo técnico | Semana del 23 de marzo |
-| Entrega de archivo de datos de ejemplo (Merco/IGR) | CNC | Semana del 23 de marzo |
-| Definición de precios por plan | CNC | Semana del 30 de marzo |
-| Entrega del prototipo funcional | Equipo técnico | 20 de abril de 2026 |
-| Demostración a clientes piloto | CNC + Equipo técnico | Semana del 27 de abril |
+| Revisión y aprobación de esta propuesta | CNC + Equipo técnico | Semana del 6 de abril |
+| Entrega de archivo de datos de ejemplo (Merco/IGR) | CNC | Semana del 6 de abril |
+| Definición de precios por plan | CNC | Semana del 13 de abril |
+| Entrega del prototipo funcional | Equipo técnico | 11 de mayo de 2026 |
+| Demostración a clientes piloto | CNC + Equipo técnico | Semana del 18 de mayo |
 
 ---
 

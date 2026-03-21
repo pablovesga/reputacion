@@ -22,6 +22,7 @@ El modelo es **freemium**: acceso básico sin costo, generación de contenido AI
 
 | Documento | Descripción |
 |-----------|-------------|
+| [Business Case](docs/negocio-business-case.md) | Justificación de inversión: mercado, financieros, riesgos y retorno proyectado |
 | [Propuesta Comercial y Técnica](docs/propuesta-bienvisto-cnc.md) | Propuesta completa para el CNC: producto, arquitectura, modelo de negocio, costos y cronograma |
 | [Presentación interactiva](docs/bienvisto-propuesta.html) | Pitch deck HTML — abrir en navegador |
 | [Guía de identidad visual](docs/brand/brand-guide.md) | Paleta de colores, tipografía, logo y componentes de UI |
