@@ -159,19 +159,19 @@ La plataforma se compone de tres servicios principales:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    BIENVISTO                             │
+│                    BIENVISTO                            │
 │                                                         │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │  Aplicación   │  │  Base de     │  │  Worker de   │  │
-│  │  Web          │  │  Datos       │  │  IA          │  │
-│  │  (Next.js)    │  │ (PostgreSQL) │  │  (Python)    │  │
-│  │               │  │              │  │              │  │
-│  │ • Dashboard   │  │ • Empresas   │  │ • Genera     │  │
-│  │ • Admin CNC   │  │ • Usuarios   │  │   reportes   │  │
-│  │ • Rankings    │  │ • Indicadores│  │   PDF        │  │
-│  │ • API         │  │ • Contenido  │  │ • Llama a    │  │
-│  │               │  │ • Créditos   │  │   modelo IA  │  │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │  Aplicación  │  │  Base de     │  │  Worker de   │   │
+│  │  Web         │  │  Datos       │  │  IA          │   │
+│  │  (Next.js)   │  │ (PostgreSQL) │  │  (Python)    │   │
+│  │              │  │              │  │              │   │
+│  │ • Dashboard  │  │ • Empresas   │  │ • Genera     │   │
+│  │ • Admin CNC  │  │ • Usuarios   │  │   reportes   │   │
+│  │ • Rankings   │  │ • Indicadores│  │   PDF        │   │
+│  │ • API        │  │ • Contenido  │  │ • Llama a    │   │
+│  │              │  │ • Créditos   │  │   modelo IA  │   │
+│  └──────┬───────┘  └──────┬───────┘  └───────┬──────┘   │
 │         │                 │                  │          │
 │         └────────┬────────┘                  │          │
 │                  │         ┌──────────────┐  │          │
@@ -376,11 +376,11 @@ Con el costo operativo mensual de ~$4.500.000 a $5.000.000:
 
 | Paso | Responsable | Fecha estimada |
 |------|-------------|----------------|
-| Revisión y aprobación de esta propuesta | CNC + Equipo técnico | Semana del 6 de abril |
-| Entrega de archivo de datos de ejemplo (Merco/IGR) | CNC | Semana del 6 de abril |
-| Definición de precios por plan | CNC | Semana del 13 de abril |
-| Entrega del prototipo funcional | Equipo técnico | 11 de mayo de 2026 |
-| Demostración a clientes piloto | CNC + Equipo técnico | Semana del 18 de mayo |
+| Revisión y aprobación de esta propuesta | CNC + Equipo técnico | Semana del 23 de marzo |
+| Entrega de archivo de datos de ejemplo (Merco/IGR) | CNC | Semana del 23 de marzo |
+| Definición de precios por plan | CNC | Semana del 30 de marzo |
+| Entrega del prototipo funcional | Equipo técnico | 20 de abril de 2026 |
+| Demostración a clientes piloto | CNC + Equipo técnico | Semana del 27 de abril |
 
 ---
 
