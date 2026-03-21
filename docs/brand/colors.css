@@ -1,0 +1,136 @@
+/**
+ * Reputación — Design Tokens
+ * Paleta oficial de colores y variables de diseño
+ */
+
+:root {
+  /* ── Colores primarios ── */
+  --color-primary-900: #0A2240;   /* Navy profundo — backgrounds oscuros */
+  --color-primary-800: #0F3460;   /* Navy base — color principal de marca */
+  --color-primary-700: #1B4F8A;   /* Navy medio — hover states */
+  --color-primary-600: #2563A0;   /* Navy claro — links, acciones secundarias */
+  --color-primary-500: #3B82B4;   /* Navy suave — bordes, divisores */
+  --color-primary-100: #DBEAFE;   /* Navy lavanda — backgrounds suaves */
+  --color-primary-50:  #EFF6FF;   /* Navy casi blanco — surface levels */
+
+  /* ── Colores de acento — Sky Blue (tecnología / datos) ── */
+  --color-accent-700:  #0369A1;   /* Sky oscuro */
+  --color-accent-600:  #0284C7;   /* Sky base */
+  --color-accent-500:  #0EA5E9;   /* Sky vivo — CTAs, highlights */
+  --color-accent-400:  #38BDF8;   /* Sky claro — iconos, charts */
+  --color-accent-300:  #7DD3FC;   /* Sky suave — dark mode */
+  --color-accent-100:  #E0F2FE;   /* Sky pastel — badges, tags */
+
+  /* ── Colores de excelencia — Amber (calificaciones / logros) ── */
+  --color-gold-600:    #D97706;   /* Amber oscuro — texto sobre claro */
+  --color-gold-500:    #F59E0B;   /* Amber base — estrellas, métricas top */
+  --color-gold-400:    #FCD34D;   /* Amber medio — iconos rating */
+  --color-gold-300:    #FDE68A;   /* Amber claro — backgrounds distinción */
+  --color-gold-100:    #FEF3C7;   /* Amber pastel */
+
+  /* ── Semánticos positivos — Emerald (crecimiento / mejora) ── */
+  --color-success-700: #047857;
+  --color-success-500: #10B981;   /* Emerald base — variaciones positivas */
+  --color-success-400: #34D399;
+  --color-success-100: #D1FAE5;
+
+  /* ── Semánticos negativos — Red (alertas / riesgo reputacional) ── */
+  --color-danger-700:  #B91C1C;
+  --color-danger-500:  #EF4444;
+  --color-danger-100:  #FEE2E2;
+
+  /* ── Semánticos de advertencia ── */
+  --color-warning-500: #F97316;   /* Orange */
+  --color-warning-100: #FFEDD5;
+
+  /* ── Neutrales ── */
+  --color-neutral-950: #020617;   /* Casi negro puro */
+  --color-neutral-900: #0F172A;   /* Text principal */
+  --color-neutral-700: #334155;   /* Text secundario */
+  --color-neutral-500: #64748B;   /* Text terciario / placeholders */
+  --color-neutral-400: #94A3B8;   /* Bordes oscuros */
+  --color-neutral-300: #CBD5E1;   /* Bordes claros */
+  --color-neutral-200: #E2E8F0;   /* Divisores */
+  --color-neutral-100: #F1F5F9;   /* Backgrounds alternos */
+  --color-neutral-50:  #F8FAFC;   /* Surface principal */
+  --color-white:       #FFFFFF;
+
+  /* ── Aliases semánticos (usar estos en el código) ── */
+  --color-brand:       var(--color-primary-800);
+  --color-brand-hover: var(--color-primary-700);
+  --color-cta:         var(--color-accent-500);
+  --color-cta-hover:   var(--color-accent-600);
+
+  --color-text-primary:   var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-500);
+  --color-text-inverse:   var(--color-white);
+
+  --color-surface:        var(--color-neutral-50);
+  --color-surface-raised: var(--color-white);
+  --color-border:         var(--color-neutral-200);
+
+  /* ── Score / IGR tiers ── */
+  --color-score-excellent: var(--color-gold-500);      /* 90–100 */
+  --color-score-good:      var(--color-success-500);   /* 70–89 */
+  --color-score-average:   var(--color-accent-500);    /* 50–69 */
+  --color-score-low:       var(--color-warning-500);   /* 30–49 */
+  --color-score-critical:  var(--color-danger-500);    /* 0–29 */
+
+  /* ── Tipografía ── */
+  --font-sans:   'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:   'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  --text-xs:     0.75rem;    /* 12px */
+  --text-sm:     0.875rem;   /* 14px */
+  --text-base:   1rem;       /* 16px */
+  --text-lg:     1.125rem;   /* 18px */
+  --text-xl:     1.25rem;    /* 20px */
+  --text-2xl:    1.5rem;     /* 24px */
+  --text-3xl:    1.875rem;   /* 30px */
+  --text-4xl:    2.25rem;    /* 36px */
+
+  --font-normal:   400;
+  --font-medium:   500;
+  --font-semibold: 600;
+  --font-bold:     700;
+
+  /* ── Espaciado ── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* ── Bordes ── */
+  --radius-sm:  0.25rem;
+  --radius-md:  0.5rem;
+  --radius-lg:  0.75rem;
+  --radius-xl:  1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ── Sombras ── */
+  --shadow-sm:  0 1px 2px 0 rgb(15 52 96 / 0.06);
+  --shadow-md:  0 4px 6px -1px rgb(15 52 96 / 0.1), 0 2px 4px -2px rgb(15 52 96 / 0.1);
+  --shadow-lg:  0 10px 15px -3px rgb(15 52 96 / 0.12), 0 4px 6px -4px rgb(15 52 96 / 0.08);
+  --shadow-xl:  0 20px 25px -5px rgb(15 52 96 / 0.14), 0 8px 10px -6px rgb(15 52 96 / 0.08);
+}
+
+/* ── Dark mode overrides ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary:   #F1F5F9;
+    --color-text-secondary: #94A3B8;
+    --color-text-inverse:   var(--color-neutral-900);
+
+    --color-surface:        #0F172A;
+    --color-surface-raised: #1E293B;
+    --color-border:         #334155;
+
+    --color-brand:          var(--color-primary-600);
+    --color-brand-hover:    var(--color-primary-500);
+  }
+}
