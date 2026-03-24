@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CazaRaíz — Propuesta Interna 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+/* === CSS VARIABLES === */
+:root {
+  --orange:      #E63946;
+  --orange-vib:  #FF5C6A;
+  --orange-dark: #C22D39;
+  --green-dark:  #1D3557;
+  --green-mid:   #2A4F7A;
+  --green-light: #06D6A0;
+  --navy:        #0B1120;
+  --gold:        #F4A261;
+  --white:       #FFFFFF;
+  --muted:       rgba(255,255,255,0.55);
+
+  --font: 'Poppins', sans-serif;
+  --title-size: clamp(2.6rem, 5.5vw, 5.2rem);
+  --h2-size:    clamp(1.9rem, 3.8vw, 3.4rem);
+  --body-size:  clamp(1.1rem, 1.7vw, 1.5rem);
+  --small-size: clamp(0.85rem, 1.2vw, 1.1rem);
+
+  --slide-pad:  clamp(1.5rem, 4vw, 4rem);
+  --gap:        clamp(0.6rem, 1.4vw, 1.4rem);
+  --el-gap:     clamp(0.3rem, 0.7vw, 0.7rem);
+
+  --grad-orange: linear-gradient(160deg, #E63946 0%, #FF5C6A 100%);
+  --grad-green:  linear-gradient(135deg, #1D3557 0%, #457B9D 100%);
+  --grad-hero:   linear-gradient(145deg, #0B1120 0%, #1D3557 50%, #0B1120 100%);
+  --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* === VIEWPORT BASE (mandatory) === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow-x: hidden; font-family: var(--font); }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+.slide {
+  width: 100vw; height: 100vh; height: 100dvh;
+  overflow: hidden; scroll-snap-align: start;
+  display: flex; flex-direction: column; position: relative;
+}
+
+@media (max-height: 700px) {
+  :root { --slide-pad: clamp(0.8rem,2.5vw,2rem); --gap: clamp(0.4rem,1vw,0.8rem); --title-size: clamp(1.8rem,4vw,3rem); --h2-size: clamp(1.4rem,2.8vw,2.4rem); --body-size: clamp(0.85rem,1.3vw,1.1rem); --small-size: clamp(0.65rem,1vw,0.9rem); }
+}
+@media (max-height: 600px) {
+  :root { --slide-pad: clamp(0.6rem,2vw,1.2rem); --title-size: clamp(1.5rem,3vw,2.2rem); --body-size: clamp(0.75rem,1.1vw,0.95rem); --small-size: clamp(0.6rem,0.9vw,0.8rem); }
+  .nav-dots, .keyboard-hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* === LAYOUTS === */
+.split { display: grid; height: 100%; overflow: hidden; }
+.split-50 { grid-template-columns: 50% 50%; }
+.split-38 { grid-template-columns: 38% 62%; }
+.split-12 { grid-template-columns: 12% 88%; }
+
+.panel-orange {
+  background: var(--grad-orange);
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: var(--slide-pad); position: relative; overflow: hidden;
+}
+.panel-orange::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: linear-gradient(45deg,rgba(255,255,255,.05) 25%,transparent 25%),
+    linear-gradient(-45deg,rgba(255,255,255,.05) 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,rgba(255,255,255,.05) 75%),
+    linear-gradient(-45deg,transparent 75%,rgba(255,255,255,.05) 75%);
+  background-size: 18px 18px;
+}
+
+.panel-green {
+  background: var(--green-dark);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--slide-pad); position: relative; overflow: hidden;
+}
+.panel-green::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(69,123,157,.15) 1px, transparent 1px);
+  background-size: 24px 24px; pointer-events: none;
+}
+
+.full-green {
+  background: var(--green-dark);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--slide-pad); height: 100%; position: relative; overflow: hidden;
+}
+.full-green::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(69,123,157,.12) 1px, transparent 1px);
+  background-size: 28px 28px; pointer-events: none;
+}
+
+.full-navy {
+  background: var(--grad-hero);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--slide-pad); height: 100%; position: relative; overflow: hidden;
+}
+
+/* === SHARED COMPONENTS === */
+.logo svg { height: clamp(26px,4vh,42px); width: auto; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 999px; font-size: var(--small-size);
+  font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 5px 14px; width: fit-content;
+}
+.chip-gold   { background: rgba(244,162,97,.15); border: 1px solid rgba(244,162,97,.35); color: var(--gold); }
+.chip-orange { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); color: #fff; }
+.chip-mint   { background: rgba(6,214,160,.15);  border: 1px solid rgba(6,214,160,.35); color: #06D6A0; }
+
+.section-num {
+  font-size: clamp(2.5rem,6vh,5rem); font-weight: 900;
+  color: rgba(255,255,255,.25); position: relative; z-index: 2;
+  writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 4px;
+}
+
+h1.title { font-size: var(--title-size); font-weight: 900; line-height: 1.05; color: #fff; letter-spacing: -1px; }
+h2.stitle { font-size: var(--h2-size); font-weight: 800; line-height: 1.1; color: #fff; letter-spacing: -.5px; margin-bottom: var(--gap); }
+.ag { color: var(--green-light); }
+.ao { color: var(--orange-vib); }
+.agd { color: var(--gold); }
+
+p.body { font-size: var(--body-size); color: var(--muted); line-height: 1.7; max-width: 52ch; }
+
+.sep { width: 40px; height: 3px; border-radius: 2px; margin: var(--el-gap) 0; background: var(--orange); }
+.sep.mint { background: var(--green-light); }
+.sep.gold { background: var(--gold); }
+
+.mint-strip {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--green-light), var(--green-mid));
+}
+
+.letrero-tag {
+  position: absolute; top: clamp(1.2rem,2.5vh,2rem); left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,.2); border: 1.5px solid rgba(255,255,255,.25);
+  color: rgba(255,255,255,.9); font-size: clamp(0.72rem,1vw,0.92rem);
+  font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  padding: 6px 18px; border-radius: 4px; white-space: nowrap; z-index: 3;
+}
+
+.panel-tagline {
+  position: relative; z-index: 2; text-align: center;
+  font-size: clamp(1rem,1.6vw,1.4rem); font-weight: 700;
+  color: rgba(255,255,255,.85); text-transform: uppercase; letter-spacing: 2px; line-height: 1.5;
+  margin-top: clamp(.6rem,1.5vh,1.2rem);
+}
+
+/* Pin icon wrapper */
+.pin-wrap { display: flex; justify-content: center; align-items: center; position: relative; z-index: 2; flex: 1; max-height: min(45vh,320px); }
+.pin-wrap svg { width: clamp(70px,16vw,150px); height: auto; filter: drop-shadow(0 12px 32px rgba(0,0,0,.3)); }
+
+/* Stats */
+.stats-row { display: flex; gap: clamp(1.2rem,3.5vw,4rem); flex-wrap: wrap; }
+.stat-val { font-size: clamp(2rem,3.8vw,3.4rem); font-weight: 800; color: var(--gold); line-height: 1; }
+.stat-lab { font-size: var(--small-size); color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+
+/* Problem grid */
+.prob-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: clamp(.6rem,1.2vw,1rem); max-height: 62vh; overflow: hidden;
+}
+.prob-card {
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px; padding: clamp(.7rem,1.3vh,1.2rem) clamp(.7rem,1.2vw,1.1rem);
+  display: flex; flex-direction: column; gap: 5px;
+}
+.prob-num { font-size: clamp(1.6rem,3.5vh,2.6rem); font-weight: 900; color: var(--orange-vib); line-height: 1; }
+.prob-title { font-size: clamp(0.95rem,1.5vw,1.25rem); font-weight: 700; color: #fff; }
+.prob-desc { font-size: clamp(0.8rem,1.2vw,1rem); color: var(--muted); line-height: 1.45; }
+
+/* Pillars */
+.pillars { display: flex; flex-direction: column; gap: clamp(.6rem,1.2vh,1rem); }
+.pillar {
+  display: flex; align-items: flex-start; gap: clamp(.7rem,1.3vw,1.1rem);
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+  border-left: 3px solid var(--orange); border-radius: 0 10px 10px 0;
+  padding: clamp(.7rem,1.3vh,1.1rem) clamp(.9rem,1.7vw,1.4rem);
+}
+.pillar:nth-child(2) { border-left-color: var(--green-light); }
+.pillar:nth-child(3) { border-left-color: var(--gold); }
+.pillar-icon { font-size: clamp(1.1rem,2.2vh,1.6rem); min-width: 1.8rem; text-align: center; margin-top: 2px; }
+.pillar-head { font-size: clamp(1.05rem,1.7vw,1.4rem); font-weight: 700; color: #fff; margin-bottom: 3px; }
+.pillar-body { font-size: clamp(0.88rem,1.35vw,1.15rem); color: var(--muted); line-height: 1.5; }
+
+/* Steps */
+.steps { display: grid; grid-template-columns: repeat(4,1fr); gap: clamp(.5rem,1.2vw,1.2rem); position: relative; }
+.steps::before {
+  content: ''; position: absolute;
+  top: clamp(14px,2.5vh,22px); left: 12%; right: 12%;
+  height: 2px; background: linear-gradient(90deg, var(--orange), var(--green-light)); z-index: 0;
+}
+.step { display: flex; flex-direction: column; align-items: center; text-align: center; gap: clamp(.4rem,.8vh,.7rem); position: relative; z-index: 2; }
+.step-num {
+  width: clamp(28px,4.5vh,44px); height: clamp(28px,4.5vh,44px); border-radius: 50%;
+  background: var(--orange); color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: clamp(.62rem,1vw,.8rem); font-weight: 800;
+}
+.step-num.g { background: var(--green-dark); border: 2px solid var(--green-light); }
+.step-title { font-size: clamp(0.9rem,1.4vw,1.15rem); font-weight: 700; color: #fff; }
+.step-desc  { font-size: clamp(0.78rem,1.2vw,1rem); color: var(--muted); line-height: 1.45; }
+
+/* Competition table */
+.comp-table { width: 100%; border-collapse: collapse; }
+.comp-table th { font-size: var(--small-size); font-weight: 700; color: var(--muted); text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,.1); text-transform: uppercase; letter-spacing: 1.5px; }
+.comp-table td { font-size: clamp(0.88rem,1.35vw,1.15rem); color: rgba(255,255,255,.7); padding: clamp(.45rem,.9vh,.8rem) 10px; border-bottom: 1px solid rgba(255,255,255,.06); vertical-align: top; line-height: 1.4; }
+.comp-table tr.hl td { background: rgba(230,57,70,.08); color: #fff; font-weight: 600; }
+.comp-table tr.hl td:first-child { color: var(--orange-vib); }
+.yes { color: var(--green-light); font-weight: 700; }
+.no  { color: rgba(255,255,255,.3); }
+
+/* Biz model */
+.biz-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(.7rem,1.5vw,1.4rem); }
+.biz-col {
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px; padding: clamp(.8rem,1.6vh,1.5rem) clamp(.7rem,1.3vw,1.2rem);
+  display: flex; flex-direction: column; gap: clamp(.4rem,.8vh,.7rem);
+}
+.biz-col.hl { border-color: var(--orange); background: rgba(230,57,70,.08); }
+.biz-phase { font-size: var(--small-size); font-weight: 700; color: var(--orange-vib); text-transform: uppercase; letter-spacing: 2px; }
+.biz-title { font-size: clamp(1.05rem,1.7vw,1.4rem); font-weight: 800; color: #fff; }
+.biz-rev   { font-size: clamp(1.3rem,2.2vw,1.9rem); font-weight: 900; color: var(--gold); line-height: 1; }
+.biz-list  { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.biz-list li { font-size: clamp(0.78rem,1.2vw,1rem); color: var(--muted); padding-left: 14px; position: relative; line-height: 1.4; }
+.biz-list li::before { content: '→'; position: absolute; left: 0; color: var(--orange); font-size: .7em; }
+
+/* Stack grid */
+.stack-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(.5rem,1vw,.9rem); }
+.stack-item { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: clamp(.55rem,1vh,.9rem) clamp(.7rem,1.3vw,1.1rem); }
+.stack-layer { font-size: clamp(0.7rem,1vw,0.9rem); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--orange-vib); margin-bottom: 4px; }
+.stack-name  { font-size: clamp(0.95rem,1.45vw,1.25rem); font-weight: 700; color: #fff; }
+.stack-why   { font-size: clamp(0.78rem,1.15vw,0.98rem); color: var(--muted); margin-top: 2px; line-height: 1.38; }
+
+/* Timeline */
+.timeline { display: grid; grid-template-columns: repeat(4,1fr); gap: clamp(.7rem,1.5vw,1.5rem); position: relative; }
+.timeline::before {
+  content: ''; position: absolute;
+  top: clamp(14px,2.5vh,22px); left: 12%; right: 12%;
+  height: 2px; background: linear-gradient(90deg, var(--orange), var(--green-light), var(--gold));
+}
+.tl-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: clamp(.4rem,.8vh,.7rem); position: relative; z-index: 2; }
+.tl-dot {
+  width: clamp(26px,4vh,38px); height: clamp(26px,4vh,38px); border-radius: 50%;
+  background: var(--green-dark); border: 2px solid var(--orange);
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(.5rem,.8vw,.65rem); font-weight: 800; color: var(--orange);
+}
+.tl-dot.now { background: var(--orange); color: #fff; border-color: var(--orange); }
+.tl-period { font-size: clamp(0.75rem,1.1vw,0.95rem); font-weight: 700; color: var(--orange-vib); text-transform: uppercase; letter-spacing: 1.5px; }
+.tl-title  { font-size: clamp(0.95rem,1.45vw,1.25rem); font-weight: 700; color: #fff; line-height: 1.3; }
+.tl-list   { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+.tl-list li { font-size: clamp(0.78rem,1.15vw,1rem); color: var(--muted); line-height: 1.38; }
+
+/* Next steps */
+.next-steps { display: flex; flex-direction: column; gap: clamp(.6rem,1.3vh,1.1rem); }
+.next-step {
+  display: flex; align-items: center; gap: clamp(.7rem,1.3vw,1.1rem);
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px; padding: clamp(.7rem,1.3vh,1.1rem) clamp(.9rem,1.7vw,1.4rem);
+}
+.next-idx {
+  min-width: clamp(26px,4vh,36px); height: clamp(26px,4vh,36px); border-radius: 50%;
+  background: var(--orange); display: flex; align-items: center; justify-content: center;
+  font-size: clamp(.58rem,.92vw,.75rem); font-weight: 800; color: #fff; flex-shrink: 0;
+}
+.next-label { font-size: clamp(0.95rem,1.45vw,1.25rem); font-weight: 700; color: #fff; }
+.next-body  { font-size: clamp(0.82rem,1.25vw,1.05rem); color: var(--muted); line-height: 1.45; margin-top: 2px; }
+
+/* Alliance boxes */
+.ally-box { background: rgba(0,0,0,.2); border-radius: 8px; padding: 8px 12px; }
+.ally-layer { font-size: clamp(0.7rem,1vw,0.9rem); color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+.ally-name  { font-size: clamp(0.95rem,1.45vw,1.25rem); font-weight: 800; color: #fff; }
+
+/* === REVEAL ANIMATIONS === */
+.reveal, .reveal-l, .reveal-s {
+  opacity: 0; transition: opacity .6s var(--ease-expo), transform .6s var(--ease-expo);
+}
+.reveal   { transform: translateY(26px); }
+.reveal-l { transform: translateX(-22px); }
+.reveal-s { transform: scale(.85); transition-timing-function: var(--ease-spring); }
+
+.slide.visible .reveal,
+.slide.visible .reveal-l,
+.slide.visible .reveal-s { opacity: 1; transform: none; }
+
+.slide.visible .reveal:nth-child(1),  .slide.visible .reveal-l:nth-child(1)  { transition-delay: .05s; }
+.slide.visible .reveal:nth-child(2),  .slide.visible .reveal-l:nth-child(2)  { transition-delay: .15s; }
+.slide.visible .reveal:nth-child(3),  .slide.visible .reveal-l:nth-child(3)  { transition-delay: .25s; }
+.slide.visible .reveal:nth-child(4),  .slide.visible .reveal-l:nth-child(4)  { transition-delay: .35s; }
+.slide.visible .reveal:nth-child(5),  .slide.visible .reveal-l:nth-child(5)  { transition-delay: .45s; }
+.slide.visible .reveal-s { transition-delay: .3s; }
+
+/* === NAVIGATION === */
+.nav-dots {
+  position: fixed; right: clamp(.8rem,2vw,1.8rem); top: 50%;
+  transform: translateY(-50%); display: flex; flex-direction: column;
+  gap: clamp(5px,1vh,9px); z-index: 1000;
+}
+.nav-dot {
+  width: clamp(5px,.7vw,7px); height: clamp(5px,.7vw,7px);
+  border-radius: 50%; background: rgba(255,255,255,.25);
+  cursor: pointer; transition: background .3s, transform .3s;
+  border: none; padding: 0;
+}
+.nav-dot.active { background: var(--orange); transform: scale(1.5); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--orange), var(--green-light));
+  z-index: 1000; transition: width .4s ease;
+}
+
+.keyboard-hint {
+  position: fixed; bottom: clamp(.7rem,1.5vh,1.2rem); left: 50%;
+  transform: translateX(-50%); font-size: clamp(0.72rem,1vw,0.9rem);
+  color: rgba(255,255,255,.2); letter-spacing: 2px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px; z-index: 1000; pointer-events: none;
+}
+
+/* Inline SVG logo — shared macro via CSS variable not possible, duplicated in HTML */
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<nav class="nav-dots" id="navDots" aria-label="Navegación"></nav>
+<p class="keyboard-hint">← → · Space · ESC inicio</p>
+
+<!-- ============================================================
+     SLIDE 1 — PORTADA
+     ============================================================ -->
+<section class="slide" id="s0">
+  <div class="split split-50" style="height:100%">
+
+    <div class="panel-orange">
+      <div class="letrero-tag">Se Arrienda / Se Vende</div>
+      <div class="pin-wrap">
+        <svg viewBox="0 0 100 124" xmlns="http://www.w3.org/2000/svg">
+          <defs><clipPath id="pc0"><circle cx="50" cy="46" r="28"/></clipPath></defs>
+          <path d="M50,5 C77,5 94,25 94,47 C94,70 50,112 50,112 C50,112 6,70 6,47 C6,25 23,5 50,5 Z" fill="white" opacity=".18"/>
+          <path d="M50,5 C77,5 94,25 94,47 C94,70 50,112 50,112 C50,112 6,70 6,47 C6,25 23,5 50,5 Z" fill="none" stroke="white" stroke-width="2.5"/>
+          <line x1="8" y1="47" x2="92" y2="47" stroke="white" stroke-width="3.5" stroke-linecap="round" clip-path="url(#pc0)"/>
+          <line x1="50" y1="10" x2="50" y2="84" stroke="white" stroke-width="3.5" stroke-linecap="round" clip-path="url(#pc0)"/>
+          <circle cx="50" cy="47" r="28" fill="none" stroke="white" stroke-width="2" opacity=".45"/>
+          <circle cx="50" cy="47" r="8" fill="white"/>
+          <path d="M50,110 Q43,118 35,116" stroke="#06D6A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M50,110 L50,122"         stroke="#06D6A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M50,110 Q57,118 65,116" stroke="#06D6A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="panel-tagline">Tu radar<br>inmobiliario</div>
+    </div>
+
+    <div class="panel-green" style="gap:var(--gap)">
+      <div class="logo reveal-l">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 100">
+          <defs><clipPath id="lk0"><circle cx="40" cy="37" r="25"/></clipPath></defs>
+          <g transform="translate(4,4) scale(0.80)">
+            <path d="M50,5 C77,5 94,25 94,47 C94,70 50,112 50,112 C50,112 6,70 6,47 C6,25 23,5 50,5 Z" fill="#FF5C6A"/>
+            <circle cx="50" cy="46" r="21" fill="white" opacity=".12"/>
+            <line x1="8" y1="46" x2="92" y2="46" stroke="white" stroke-width="3" stroke-linecap="round" clip-path="url(#lk0)"/>
+            <line x1="50" y1="8" x2="50" y2="84" stroke="white" stroke-width="3" stroke-linecap="round" clip-path="url(#lk0)"/>
+            <circle cx="50" cy="46" r="21" fill="none" stroke="white" stroke-width="2.5" opacity=".4"/>
+            <circle cx="50" cy="46" r="6" fill="white"/>
+            <path d="M50,110 Q43,118 35,116" stroke="#06D6A0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M50,110 L50,120"         stroke="#06D6A0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M50,110 Q57,118 65,116" stroke="#06D6A0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <text x="96" y="58" font-family="Poppins,Arial Black,sans-serif" font-weight="800" font-size="46" fill="#FFFFFF" letter-spacing="-1">Caza</text>
+          <text x="218" y="58" font-family="Poppins,Arial Black,sans-serif" font-weight="800" font-size="46" fill="#FF5C6A" letter-spacing="-1">Ra&#237;z</text>
+          <circle cx="214" cy="52" r="3.5" fill="#FF5C6A" opacity=".5"/>
+          <text x="97" y="76" font-family="Poppins,Arial,sans-serif" font-size="11" fill="rgba(255,255,255,.5)" letter-spacing="2.5">TU RADAR INMOBILIARIO</text>
+        </svg>
+      </div>
+      <div class="chip chip-gold reveal-l">★ Presentación Interna · Marzo 2026</div>
+      <h1 class="title reveal">El mercado que<br>los portales<br><span class="ag">no ven.</span></h1>
+      <p class="body reveal">App móvil que digitaliza el inventario inmobiliario invisible de Colombia: propiedades que solo existen en un letrero de cartón.</p>
+      <div class="stats-row reveal">
+        <div><div class="stat-val">7.3M</div><div class="stat-lab">Hogares en arriendo</div></div>
+        <div><div class="stat-val">$60B</div><div class="stat-lab">COP mercado/año</div></div>
+        <div><div class="stat-val">57%</div><div class="stat-lab">Contratos verbales</div></div>
+      </div>
+      <div class="mint-strip"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — EL PROBLEMA
+     ============================================================ -->
+<section class="slide" id="s1">
+  <div class="split split-12" style="height:100%">
+    <div class="panel-orange" style="padding:clamp(1rem,2vw,2rem)">
+      <div class="section-num reveal-s">01</div>
+    </div>
+    <div class="panel-green" style="gap:var(--gap)">
+      <div class="chip chip-orange reveal">El Problema</div>
+      <h2 class="stitle reveal">Un mercado enorme,<br><span class="ao">completamente ignorado.</span></h2>
+      <div class="prob-grid reveal">
+        <div class="prob-card">
+          <div class="prob-num">57%</div>
+          <div class="prob-title">Contratos verbales</div>
+          <div class="prob-desc">La mayoría de arriendos en Colombia se cierran sin un contrato escrito.</div>
+        </div>
+        <div class="prob-card">
+          <div class="prob-num">7.3M</div>
+          <div class="prob-title">Hogares en arriendo</div>
+          <div class="prob-desc">Por primera vez, más hogares en arriendo que en vivienda propia.</div>
+        </div>
+        <div class="prob-card">
+          <div class="prob-num">+35%</div>
+          <div class="prob-title">Fraude inmobiliario</div>
+          <div class="prob-desc">Alza en denuncias en un año. Facebook: el canal de estafa más frecuente.</div>
+        </div>
+        <div class="prob-card">
+          <div class="prob-num">92%</div>
+          <div class="prob-title">Busca online</div>
+          <div class="prob-desc">Pero la mayoría cierra informalmente. Brecha digital-transaccional enorme.</div>
+        </div>
+        <div class="prob-card">
+          <div class="prob-num">$60B</div>
+          <div class="prob-title">COP/año en arriendos</div>
+          <div class="prob-desc">Supera al mercado de compraventa ($51.2B). Ningún portal lo atiende bien.</div>
+        </div>
+        <div class="prob-card">
+          <div class="prob-num">0</div>
+          <div class="prob-title">Apps que escanean letreros</div>
+          <div class="prob-desc">Ninguna plataforma digitaliza propiedades con solo letrero físico. Vacío total.</div>
+        </div>
+      </div>
+      <div class="mint-strip"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — SOLUCIÓN: 3 PILARES
+     ============================================================ -->
+<section class="slide" id="s2">
+  <div class="split split-38" style="height:100%">
+
+    <div class="panel-orange" style="gap:clamp(.8rem,1.8vh,1.5rem); justify-content:center">
+      <div class="letrero-tag">Nuestra Solución</div>
+      <div class="pin-wrap" style="flex:0; max-height:min(30vh,160px); margin-top:clamp(2rem,5vh,4rem)">
+        <svg viewBox="0 0 100 124" xmlns="http://www.w3.org/2000/svg" style="width:clamp(55px,11vw,90px)">
+          <defs><clipPath id="pc3"><circle cx="50" cy="46" r="28"/></clipPath></defs>
+          <path d="M50,5 C77,5 94,25 94,47 C94,70 50,112 50,112 C50,112 6,70 6,47 C6,25 23,5 50,5 Z" fill="white" opacity=".18"/>
+          <path d="M50,5 C77,5 94,25 94,47 C94,70 50,112 50,112 C50,112 6,70 6,47 C6,25 23,5 50,5 Z" fill="none" stroke="white" stroke-width="2.5"/>
+          <line x1="8" y1="47" x2="92" y2="47" stroke="white" stroke-width="3.5" stroke-linecap="round" clip-path="url(#pc3)"/>
+          <line x1="50" y1="10" x2="50" y2="84" stroke="white" stroke-width="3.5" stroke-linecap="round" clip-path="url(#pc3)"/>
+          <circle cx="50" cy="47" r="28" fill="none" stroke="white" stroke-width="2" opacity=".45"/>
+          <circle cx="50" cy="47" r="8" fill="white"/>
+          <path d="M50,110 Q43,118 35,116" stroke="#06D6A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M50,110 L50,122"         stroke="#06D6A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M50,110 Q57,118 65,116" stroke="#06D6A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;gap:clamp(.6rem,1.2vh,1rem);margin-top:clamp(.8rem,1.8vh,1.4rem)">
+        <div style="text-align:center">
+          <div style="font-size:clamp(1.9rem,3.6vw,2.9rem);font-weight:900;color:white;line-height:1">13.6%</div>
+          <div style="font-size:var(--small-size);color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px">Conversión QR → lead</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:clamp(1.9rem,3.6vw,2.9rem);font-weight:900;color:white;line-height:1">$2.60</div>
+          <div style="font-size:var(--small-size);color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px">USD / 1,000 fotos OCR</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-green" style="gap:var(--gap)">
+      <div class="chip chip-gold reveal">02 · Solución</div>
+      <h2 class="stitle reveal">Tres pilares.<br>Un <span class="ag">mercado sin explorar.</span></h2>
+      <div class="pillars reveal">
+        <div class="pillar">
+          <div class="pillar-icon">📱</div>
+          <div>
+            <div class="pillar-head">QR Dinámicos (Iteración primaria)</div>
+            <div class="pillar-body">Propietario genera un QR desde la app y lo pega en su letrero. El interesado escanea y accede a la ficha completa en tiempo real — sin datos desactualizados.</div>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🔍</div>
+          <div>
+            <div class="pillar-head">OCR + WhatsApp Automático</div>
+            <div class="pillar-body">Foto del letrero → Claude Haiku extrae teléfono, precio y dirección → deep link de WhatsApp listo para enviar. Costo: ~$2.60 USD / 1,000 imágenes en MVP.</div>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🛡️</div>
+          <div>
+            <div class="pillar-head">Servicios de Valor Agregado</div>
+            <div class="pillar-body">Verificación de arrendatarios (DataCrédito vía Apitude), seguros integrados (SURA — estudio gratis con póliza), contratos digitales (ZapSign), precio por zona (Habi API).</div>
+          </div>
+        </div>
+      </div>
+      <div class="mint-strip"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — CÓMO FUNCIONA
+     ============================================================ -->
+<section class="slide" id="s3">
+  <div class="full-green" style="gap:var(--el-gap)">
+    <div class="chip chip-orange reveal">03 · Producto</div>
+    <h2 class="stitle reveal" style="margin-bottom:var(--el-gap)">Cómo funciona <span class="ao">el MVP.</span></h2>
+    <div class="sep reveal"></div>
+
+    <p class="reveal" style="font-size:var(--small-size);color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin:var(--el-gap) 0 clamp(.3rem,.6vh,.5rem)">Flujo A — QR Dinámico</p>
+    <div class="steps reveal">
+      <div class="step"><div class="step-num">1</div><div class="step-title">Crear ficha</div><div class="step-desc">Propietario sube fotos, precio, tipo, metros y contacto desde la app.</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-title">Generar QR</div><div class="step-desc">App crea un QR único vinculado a la ficha en tiempo real.</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-title">Pegar en letrero</div><div class="step-desc">QR imprimible se pega sobre el letrero físico existente.</div></div>
+      <div class="step"><div class="step-num" style="background:var(--green-mid);border:2px solid var(--green-light)">4</div><div class="step-title">Escanear y contactar</div><div class="step-desc">Interesado ve ficha completa y contacta por WhatsApp o en la app.</div></div>
+    </div>
+
+    <div class="sep mint reveal" style="margin:var(--gap) 0 clamp(.3rem,.6vh,.5rem)"></div>
+
+    <p class="reveal" style="font-size:var(--small-size);color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:clamp(.3rem,.6vh,.5rem)">Flujo B — OCR + WhatsApp</p>
+    <div class="steps reveal">
+      <div class="step"><div class="step-num g">1</div><div class="step-title">Foto del letrero</div><div class="step-desc">Usuario fotografía un "Se Arrienda" en la calle.</div></div>
+      <div class="step"><div class="step-num g">2</div><div class="step-title">OCR extrae datos</div><div class="step-desc">Claude Haiku lee: teléfono, precio, tipo, dirección.</div></div>
+      <div class="step"><div class="step-num g">3</div><div class="step-title">Deep link WA</div><div class="step-desc">Genera wa.me/ con mensaje pre-formateado al instante.</div></div>
+      <div class="step"><div class="step-num g">4</div><div class="step-title">Geolocalizar</div><div class="step-desc">Letrero aparece en mapa con Freshness Score visible.</div></div>
+    </div>
+    <div class="mint-strip"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — VENTAJA COMPETITIVA
+     ============================================================ -->
+<section class="slide" id="s4">
+  <div class="split split-12" style="height:100%">
+    <div class="panel-orange" style="padding:clamp(1rem,2vw,2rem)">
+      <div class="section-num reveal-s">04</div>
+    </div>
+    <div class="panel-green" style="gap:var(--gap)">
+      <div class="chip chip-mint reveal">Mercado</div>
+      <h2 class="stitle reveal">Lo que nadie<br><span class="ao">está haciendo.</span></h2>
+      <table class="comp-table reveal">
+        <thead>
+          <tr>
+            <th>Plataforma</th>
+            <th>Qué hace bien</th>
+            <th>Qué NO hace — nuestra oportunidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hl">
+            <td>CazaRaíz</td>
+            <td><span class="yes">✓ QR · OCR · seguro · verificación · contrato</span></td>
+            <td><span class="yes">✓ Todo en uno. Primero en hacerlo.</span></td>
+          </tr>
+          <tr>
+            <td>FincaRaíz</td>
+            <td>Clasificados online (370K propiedades)</td>
+            <td><span class="no">✗ Sin mercado informal · sin verificación · anuncios viejos</span></td>
+          </tr>
+          <tr>
+            <td>Metrocuadrado</td>
+            <td>Clasificados + contenido editorial</td>
+            <td><span class="no">✗ Sin contratos · sin seguros · sin escaneo de letreros</span></td>
+          </tr>
+          <tr>
+            <td>Habi</td>
+            <td>Compra directa vivienda usada + crédito</td>
+            <td><span class="no">✗ No cubre arriendos · no atiende mercado informal</span></td>
+          </tr>
+          <tr>
+            <td>La Haus</td>
+            <td>Vivienda nueva + IA ($163M en funding)</td>
+            <td><span class="no">✗ Solo obra nueva · no cubre usada ni arriendos</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="body reveal"><span class="agd">Ventaja defensible:</span> base de datos de inventario informal (propiedades que no existen en ningún portal) — activo único con efecto de red tipo Waze.</p>
+      <div class="mint-strip"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — MODELO DE NEGOCIO
+     ============================================================ -->
+<section class="slide" id="s5">
+  <div class="full-green" style="gap:var(--gap)">
+    <div class="chip chip-gold reveal">05 · Negocio</div>
+    <h2 class="stitle reveal" style="margin-bottom:var(--el-gap)">Monetización en <span class="ao">tres fases.</span></h2>
+    <div class="sep gold reveal"></div>
+    <div class="biz-cols reveal">
+      <div class="biz-col">
+        <div class="biz-phase">Fase 1 · M0–12</div>
+        <div class="biz-title">Freemium &amp; Crowdsourcing</div>
+        <div class="biz-rev">$0</div>
+        <ul class="biz-list">
+          <li>App gratuita para todos</li>
+          <li>Gamificación Waze: puntos por foto de letrero</li>
+          <li>Meta: 100K usuarios · 500K letreros</li>
+          <li>Semilla con 10–20 personas en Bogotá (2–4 semanas)</li>
+        </ul>
+      </div>
+      <div class="biz-col hl">
+        <div class="biz-phase">Fase 2 · M12–24</div>
+        <div class="biz-title">Lead Gen + Servicios Premium</div>
+        <div class="biz-rev">$25K–$120K/mes</div>
+        <ul class="biz-list">
+          <li>Leads a inmobiliarias: $5–15 USD/lead</li>
+          <li>Suscripción agentes: $30–100 USD/mes</li>
+          <li>Comisión seguros SURA / MAPFRE / Zurich</li>
+          <li>Verificación gratis cuando el arrendador contrata póliza</li>
+        </ul>
+      </div>
+      <div class="biz-col">
+        <div class="biz-phase">Fase 3 · M24–36</div>
+        <div class="biz-title">Data API + Expansión Latam</div>
+        <div class="biz-rev">$500K+/año</div>
+        <ul class="biz-list">
+          <li>API de datos para proptech / bancos: $500–5K/mes</li>
+          <li>Índices de precio basados en letreros reales</li>
+          <li>Contratos digitales ZapSign: comisión por transacción</li>
+          <li>México → Perú → Argentina</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stats-row reveal" style="padding-top:var(--el-gap);border-top:1px solid rgba(255,255,255,.08);margin-top:var(--el-gap)">
+      <div><div class="stat-val" style="font-size:clamp(1.3rem,2.4vw,2rem)">$2–5</div><div class="stat-lab">CAC consumidor (USD)</div></div>
+      <div><div class="stat-val" style="font-size:clamp(1.3rem,2.4vw,2rem)">&gt;5:1</div><div class="stat-lab">Ratio LTV/CAC objetivo</div></div>
+      <div><div class="stat-val" style="font-size:clamp(1.3rem,2.4vw,2rem)">8.8x</div><div class="stat-lab">Revenue multiple proptech</div></div>
+      <div><div class="stat-val" style="font-size:clamp(1.3rem,2.4vw,2rem)">$100–200K</div><div class="stat-lab">Objetivo pre-seed (USD)</div></div>
+    </div>
+    <div class="mint-strip"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — STACK Y ALIANZAS
+     ============================================================ -->
+<section class="slide" id="s6">
+  <div class="split split-38" style="height:100%">
+    <div class="panel-orange" style="gap:clamp(.7rem,1.5vh,1.2rem);justify-content:center;align-items:flex-start">
+      <div class="letrero-tag">Stack &amp; Alianzas</div>
+      <div style="position:relative;z-index:2;margin-top:clamp(2.5rem,6vh,5rem)">
+        <h3 style="font-size:clamp(1.5rem,3vw,2.6rem);font-weight:900;color:white;line-height:1.1;margin-bottom:clamp(.8rem,1.8vh,1.4rem)">Arquitectura<br>lista para<br>escalar.</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div class="ally-box"><div class="ally-layer">Alianza clave · Seguros</div><div class="ally-name">SURA</div></div>
+          <div class="ally-box"><div class="ally-layer">Valuación por zona</div><div class="ally-name">Habi — Habímetro API</div></div>
+          <div class="ally-box"><div class="ally-layer">Verificación crediticia</div><div class="ally-name">Apitude — DataCrédito</div></div>
+          <div class="ally-box"><div class="ally-layer">Firma electrónica</div><div class="ally-name">ZapSign API</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-green" style="gap:var(--gap)">
+      <div class="chip chip-mint reveal">06 · Tecnología</div>
+      <h2 class="stitle reveal" style="margin-bottom:var(--el-gap)">Stack <span class="ag">técnico.</span></h2>
+      <div class="stack-grid reveal">
+        <div class="stack-item"><div class="stack-layer">App Móvil</div><div class="stack-name">Flutter</div><div class="stack-why">30–50% más rápido que React Native para cámara</div></div>
+        <div class="stack-item"><div class="stack-layer">Backend</div><div class="stack-name">NestJS + Node.js</div><div class="stack-why">Escalable, ecosistema maduro</div></div>
+        <div class="stack-item"><div class="stack-layer">Base de Datos</div><div class="stack-name">PostgreSQL + PostGIS</div><div class="stack-why">Queries geoespaciales para el mapa</div></div>
+        <div class="stack-item"><div class="stack-layer">IA/OCR MVP</div><div class="stack-name">Claude Haiku</div><div class="stack-why">Extrae + estructura en 1 llamada · $2.60/1K imgs</div></div>
+        <div class="stack-item"><div class="stack-layer">IA/OCR Escala</div><div class="stack-name">Google Vision + Haiku</div><div class="stack-why">~$0.002/img en alto volumen</div></div>
+        <div class="stack-item"><div class="stack-layer">Tiempo Real</div><div class="stack-name">Supabase</div><div class="stack-why">Actualizaciones de mapa en vivo</div></div>
+        <div class="stack-item"><div class="stack-layer">WhatsApp</div><div class="stack-name">wa.me deep link</div><div class="stack-why">Gratis sin API · Business API para confirmaciones</div></div>
+        <div class="stack-item"><div class="stack-layer">Storage</div><div class="stack-name">AWS S3</div><div class="stack-why">Escalable y de bajo costo por imagen</div></div>
+        <div class="stack-item"><div class="stack-layer">Antecedentes</div><div class="stack-name">TusDatos.co API</div><div class="stack-why">Penales, legales, identidad · ~2,000 clientes empresas</div></div>
+      </div>
+      <div class="mint-strip"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — ROADMAP
+     ============================================================ -->
+<section class="slide" id="s7">
+  <div class="full-navy" style="gap:var(--gap)">
+    <div class="chip chip-gold reveal">07 · Hoja de Ruta</div>
+    <h2 class="stitle reveal" style="margin-bottom:var(--el-gap)">Roadmap <span class="ao">36 meses.</span></h2>
+    <div class="sep reveal"></div>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-dot now">M1</div>
+        <div class="tl-period">Meses 0–6</div>
+        <div class="tl-title">MVP</div>
+        <ul class="tl-list">
+          <li>App Flutter</li><li>QR + OCR + WhatsApp</li>
+          <li>Mapa de propiedades</li><li>Beta cerrada Bogotá</li>
+          <li>Cold start: seed data</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">M2</div>
+        <div class="tl-period">Meses 6–12</div>
+        <div class="tl-title">Crecimiento</div>
+        <ul class="tl-list">
+          <li>Verificación arrendatarios</li><li>Seguros SURA integrados</li>
+          <li>Estimador de precios (Habi)</li><li>Alertas por zona</li>
+          <li>Monetización inicial</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">M3</div>
+        <div class="tl-period">Meses 12–24</div>
+        <div class="tl-title">Expansión Colombia</div>
+        <ul class="tl-list">
+          <li>Contratos digitales ZapSign</li><li>Scanner web (beta cerrada)</li>
+          <li>Computer Vision propiedades</li><li>API de datos B2B</li>
+          <li>Medellín + Cali</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">M4</div>
+        <div class="tl-period">Meses 24–36</div>
+        <div class="tl-title">Latam</div>
+        <ul class="tl-list">
+          <li>México (Prioridad 2)</li><li>Perú (Prioridad 3)</li>
+          <li>Argentina (Prioridad 4)</li><li>Serie A</li>
+        </ul>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:var(--gap);padding-top:var(--el-gap);border-top:1px solid rgba(255,255,255,.08)">
+      <p style="font-size:var(--small-size);color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:clamp(.4rem,.8vh,.7rem)">Equipo mínimo MVP (3–4 meses)</p>
+      <div style="display:flex;gap:clamp(.6rem,1.5vw,1.2rem);flex-wrap:wrap">
+        <span style="font-size:var(--small-size);color:rgba(255,255,255,.7);background:rgba(255,255,255,.06);padding:4px 12px;border-radius:999px">1 Flutter Senior</span>
+        <span style="font-size:var(--small-size);color:rgba(255,255,255,.7);background:rgba(255,255,255,.06);padding:4px 12px;border-radius:999px">1 Backend NestJS</span>
+        <span style="font-size:var(--small-size);color:rgba(255,255,255,.7);background:rgba(255,255,255,.06);padding:4px 12px;border-radius:999px">1 ML/Vision (part-time)</span>
+        <span style="font-size:var(--small-size);color:rgba(255,255,255,.7);background:rgba(255,255,255,.06);padding:4px 12px;border-radius:999px">1 UX/UI (part-time)</span>
+        <span style="font-size:var(--small-size);color:rgba(255,255,255,.7);background:rgba(255,255,255,.06);padding:4px 12px;border-radius:999px">1 PM / Founder</span>
+      </div>
+    </div>
+    <div class="mint-strip"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — PRÓXIMOS PASOS
+     ============================================================ -->
+<section class="slide" id="s8">
+  <div class="split split-50" style="height:100%">
+    <div class="panel-orange" style="gap:var(--el-gap);justify-content:center">
+      <div class="letrero-tag">¿Empezamos?</div>
+      <div class="pin-wrap">
+        <svg viewBox="0 0 100 124" xmlns="http://www.w3.org/2000/svg">
+          <defs><clipPath id="pc9"><circle cx="50" cy="46" r="28"/></clipPath></defs>
+          <path d="M50,5 C77,5 94,25 94,47 C94,70 50,112 50,112 C50,112 6,70 6,47 C6,25 23,5 50,5 Z" fill="white" opacity=".18"/>
+          <path d="M50,5 C77,5 94,25 94,47 C94,70 50,112 50,112 C50,112 6,70 6,47 C6,25 23,5 50,5 Z" fill="none" stroke="white" stroke-width="2.5"/>
+          <line x1="8" y1="47" x2="92" y2="47" stroke="white" stroke-width="3.5" stroke-linecap="round" clip-path="url(#pc9)"/>
+          <line x1="50" y1="10" x2="50" y2="84" stroke="white" stroke-width="3.5" stroke-linecap="round" clip-path="url(#pc9)"/>
+          <circle cx="50" cy="47" r="28" fill="none" stroke="white" stroke-width="2" opacity=".45"/>
+          <circle cx="50" cy="47" r="8" fill="white"/>
+          <path d="M50,110 Q43,118 35,116" stroke="#06D6A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M50,110 L50,122"         stroke="#06D6A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M50,110 Q57,118 65,116" stroke="#06D6A0" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="panel-tagline">CazaRaíz<br>Borrador v1.0</div>
+      <div style="position:relative;z-index:2;text-align:center;margin-top:clamp(.3rem,.8vh,.6rem)">
+        <div style="font-size:var(--small-size);color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:2px">Marzo 2026</div>
+      </div>
+    </div>
+
+    <div class="panel-green" style="gap:var(--gap)">
+      <div class="chip chip-mint reveal">08 · Próximos Pasos</div>
+      <h2 class="stitle reveal" style="margin-bottom:var(--el-gap)">Lo que viene<br><span class="ag">esta semana.</span></h2>
+      <div class="next-steps reveal">
+        <div class="next-step">
+          <div class="next-idx">1</div>
+          <div>
+            <div class="next-label">Validación de concepto (Semanas 1–6)</div>
+            <div class="next-body">Prototipo OCR funcional con Claude Haiku + QR básico. Testear con 20–30 propietarios reales en Bogotá.</div>
+          </div>
+        </div>
+        <div class="next-step">
+          <div class="next-idx">2</div>
+          <div>
+            <div class="next-label">Cold Start — Seed Data (Semanas 2–6)</div>
+            <div class="next-body">Equipo de 10–20 personas fotografía letreros en zonas clave. Meta: 5,000–10,000 propiedades antes del lanzamiento público.</div>
+          </div>
+        </div>
+        <div class="next-step">
+          <div class="next-idx">3</div>
+          <div>
+            <div class="next-label">Alianzas prioritarias (Mes 1–3)</div>
+            <div class="next-body">Contactar SURA (seguros), Habi (API valuación), 50 inmobiliarias para QR desde día 1. Asesoría jurídica para datos y verificación crediticia.</div>
+          </div>
+        </div>
+        <div class="next-step">
+          <div class="next-idx">4</div>
+          <div>
+            <div class="next-label">Arquitectura técnica (Mes 1)</div>
+            <div class="next-body">Definir stack definitivo, levantar repos, infra inicial en AWS + Supabase. Contratar Flutter senior y backend NestJS.</div>
+          </div>
+        </div>
+      </div>
+      <div class="mint-strip"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     JAVASCRIPT — SLIDE CONTROLLER
+     ============================================================ -->
+<script>
+/* === CazaRaíz Slide Controller === */
+class SlidePresentation {
+  constructor() {
+    this.slides        = document.querySelectorAll('.slide');
+    this.total         = this.slides.length;
+    this.current       = 0;
+    this.isScrolling   = false;
+    this.cooldown      = 850;
+    this.progressBar   = document.getElementById('progressBar');
+    this.navContainer  = document.getElementById('navDots');
+
+    this.setupObserver();
+    this.setupNavDots();
+    this.setupKeyboard();
+    this.setupWheel();
+    this.setupTouch();
+    this.updateProgress(0);
+  }
+
+  /* Intersection Observer — adds .visible to trigger CSS animations */
+  setupObserver() {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          const idx = Array.from(this.slides).indexOf(e.target);
+          this.current = idx;
+          this.updateNavDots(idx);
+          this.updateProgress(idx);
+        }
+      });
+    }, { threshold: 0.6 });
+    this.slides.forEach(s => obs.observe(s));
+  }
+
+  setupNavDots() {
+    this.slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', `Ir a diapositiva ${i + 1}`);
+      d.addEventListener('click', () => this.goTo(i));
+      this.navContainer.appendChild(d);
+    });
+  }
+
+  updateNavDots(active) {
+    document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === active));
+  }
+
+  updateProgress(idx) {
+    const pct = this.total > 1 ? (idx / (this.total - 1)) * 100 : 100;
+    this.progressBar.style.width = pct + '%';
+  }
+
+  goTo(idx) {
+    if (idx < 0 || idx >= this.total) return;
+    this.slides[idx].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  next() { this.goTo(this.current + 1); }
+  prev() { this.goTo(this.current - 1); }
+
+  setupKeyboard() {
+    document.addEventListener('keydown', e => {
+      const map = {
+        'ArrowDown': () => this.next(),  'ArrowRight': () => this.next(),
+        ' ':         () => this.next(),  'PageDown':   () => this.next(),
+        'ArrowUp':   () => this.prev(),  'ArrowLeft':  () => this.prev(),
+        'PageUp':    () => this.prev(),
+        'Home':      () => this.goTo(0),
+        'End':       () => this.goTo(this.total - 1),
+        'Escape':    () => this.goTo(0),
+      };
+      if (map[e.key]) { e.preventDefault(); map[e.key](); }
+    });
+  }
+
+  setupWheel() {
+    document.addEventListener('wheel', e => {
+      e.preventDefault();
+      if (this.isScrolling) return;
+      this.isScrolling = true;
+      e.deltaY > 0 ? this.next() : this.prev();
+      setTimeout(() => { this.isScrolling = false; }, this.cooldown);
+    }, { passive: false });
+  }
+
+  setupTouch() {
+    let y0 = 0, x0 = 0;
+    document.addEventListener('touchstart', e => {
+      y0 = e.touches[0].clientY; x0 = e.touches[0].clientX;
+    }, { passive: true });
+    document.addEventListener('touchend', e => {
+      const dy = y0 - e.changedTouches[0].clientY;
+      const dx = x0 - e.changedTouches[0].clientX;
+      if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40) {
+        dy > 0 ? this.next() : this.prev();
+      }
+    }, { passive: true });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => new SlidePresentation());
+</script>
+</body>
+</html>
