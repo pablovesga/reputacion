@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "powerpoint-automation": {
+      "source": "aktsmm/agent-skills",
+      "sourceType": "github",
+      "computedHash": "e3f5f6a67b4e64ba5e0e204ae1cbca3366871633283e5fa0dafb1381111d355b"
+    }
+  }
+}

@@ -27,7 +27,7 @@ La plataforma permite a las organizaciones:
 
 El modelo de negocio es **freemium**: las empresas acceden a sus datos básicos sin costo y pagan por la generación de contenido AI según el plan contratado.
 
-**Bienvisto es un modelo disruptivo: convierte los datos del CNC en un producto digital recurrente, escalable y de alto valor, sin precedentes en el mercado colombiano.**
+Bienvisto convierte los datos del CNC en un producto digital recurrente y escalable, con un modelo sin precedentes en el mercado colombiano.
 
 ---
 
@@ -87,6 +87,13 @@ Ambos productos comparten infraestructura tecnológica y el mismo modelo de acce
 - El sistema identifica los stakeholders relevantes según el tipo de empresa y sector.
 - Por cada stakeholder se genera un cuestionario específico.
 - Al finalizar: **diagnóstico + recomendaciones concretas**, respaldadas por casos reales de empresas similares (artículos de prensa, casos de gestión empresarial, marcos teóricos).
+
+#### Levantamiento de encuestas propias
+- La empresa puede proveer su propia base de datos de stakeholders (empleados, clientes, proveedores, comunidades, etc.).
+- La plataforma diseña y distribuye encuestas personalizadas a esa base de contactos.
+- Los resultados nutren directamente los indicadores de reputación y satisfacción de la empresa.
+- La periodicidad de las encuestas es configurable: mensual, trimestral o según el ciclo que defina la empresa.
+- Este mecanismo permite mantener el índice actualizado de forma continua, independientemente de los ciclos de medición del CNC.
 
 #### Monitoreo en tiempo real
 - **Conexión a redes sociales:** Lo que pasa en las redes sociales de la empresa actualiza automáticamente su índice de reputación.
@@ -281,28 +288,34 @@ Indicador (definición global)
 | 1 | Infraestructura base: autenticación, multi-tenancy, flujo de diagnóstico guiado, CRUD de empresas |
 | 2 | Carga de datos CSV/Excel, dashboard con gráficas de indicadores, comparativo temporal |
 | 3 | Generación de reportes PDF con IA, sistema de créditos, cola de procesamiento asíncrono |
-| 4 | Rankings públicos, integración inicial con redes sociales, datos de prueba, documentación |
+| 4 | Rankings públicos, módulo de encuestas propias (carga de BBDD + distribución), datos de prueba, documentación |
 
 **Resultado:** MVP funcional que se presenta al CNC. Si lo aprueban, se firma contrato y comienza el pago por los meses siguientes.
 
-### Fase 2 — Producto completo (8 semanas adicionales, ~$16M)
+### Fase 2 — Bienvisto Reputación completo (meses 2–3, ~$16M)
 
 - Flujo de diagnóstico completo con identificación de stakeholders y base de conocimiento de casos.
-- Generación de presentaciones PPT editables.
-- Generación de videos narrativos con voz sintetizada.
+- Módulo de encuestas: carga de base de datos de contactos, diseño de cuestionarios por stakeholder y distribución periódica configurable.
 - Integración con redes sociales y fuentes noticiosas para monitoreo en tiempo real.
-- Sistema de planes y facturación.
+- Generación de presentaciones PPT editables.
 - Login con Google/Microsoft (SSO).
 - Notificaciones por email.
 - Despliegue en la nube (Azure o AWS).
 
-### Fase 3 — Producción y escala
+### Fase 3 — Bienvisto Satisfacción completo (meses 4–5)
+
+- Medición continua de satisfacción de clientes y stakeholders.
+- Encuestas inteligentes por segmento de audiencia con distribución periódica configurable.
+- Análisis automático de resultados y recomendaciones accionables.
+- Integración con los índices de reputación para una vista 360° de la empresa.
+
+### Fase 4 — Producción y escala
 
 - API pública para integraciones.
 - Dashboard público elaborado con filtros.
 - Soporte multi-idioma.
 - Analytics de uso de la plataforma.
-- Expansión a otros países (Merco opera en Latam y Europa).
+- Expansión a otros países (el CNC tiene presencia en Latam).
 
 ---
 
@@ -381,7 +394,7 @@ Con el costo operativo mensual de ~$8.500.000 a $9.000.000:
 
 ### ¿Por qué Bienvisto?
 
-1. **Modelo disruptivo:** No es una mejora incremental sobre lo existente. Es la primera plataforma de autoservicio de reputación con IA en Colombia. Nadie más está haciendo esto.
+1. **Propuesta sin precedentes:** Primera plataforma de autoservicio de reputación con IA en Colombia. No existe una oferta comparable en el mercado local.
 
 2. **Monetización de datos existentes:** Los datos que el CNC ya recopila se convierten en un producto digital recurrente de alto valor, sin costo adicional de recolección.
 
@@ -408,8 +421,8 @@ Con el costo operativo mensual de ~$8.500.000 a $9.000.000:
 | Hito | Entregable | Revisión |
 |------|-----------|----------|
 | **Mes 1** | MVP funcional con datos reales del CNC | Revisión mensual — validar dirección y ajustar prioridades |
-| **Mes 3** | **Bienvisto Satisfacción** completo — listo para primeras empresas piloto | Revisión mensual |
-| **Mes 5** | **Bienvisto Reputación** completo — monitoreo en tiempo real, IA, dashboard | Revisión mensual |
+| **Mes 3** | **Bienvisto Reputación** completo — monitoreo en tiempo real, encuestas propias, IA, dashboard | Revisión mensual |
+| **Mes 5** | **Bienvisto Satisfacción** completo — listo para primeras empresas piloto | Revisión mensual |
 
 Las revisiones mensuales permiten ajustar el alcance, prioridades y funcionalidades según el feedback del CNC y los primeros usuarios piloto.
 
@@ -425,9 +438,9 @@ Las revisiones mensuales permiten ajustar el alcance, prioridades y funcionalida
 | Entrega de datos de reputación del CNC | CNC | Semana del 6 de abril |
 | Definición de precios por plan | CNC | Semana del 13 de abril |
 | **MVP — Decisión de iterar** | Equipo técnico | Mayo 2026 |
-| **Entrega Bienvisto Satisfacción — Revisión mes 3** | Equipo técnico | Julio 2026 |
-| Demostración a clientes piloto (Satisfacción) | CNC + Equipo técnico | Julio 2026 |
-| **Entrega Bienvisto Reputación — Revisión mes 5** | Equipo técnico | Septiembre 2026 |
+| **Entrega Bienvisto Reputación — Revisión mes 3** | Equipo técnico | Julio 2026 |
+| Demostración a clientes piloto (Reputación) | CNC + Equipo técnico | Julio 2026 |
+| **Entrega Bienvisto Satisfacción — Revisión mes 5** | Equipo técnico | Septiembre 2026 |
 
 ---
 
