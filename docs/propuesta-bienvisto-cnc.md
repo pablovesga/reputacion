@@ -13,17 +13,21 @@
 
 ## 1. Resumen Ejecutivo
 
-**Bienvisto** es una plataforma SaaS que transforma los datos de reputación corporativa —como los índices Merco e IGR— en inteligencia accionable para las empresas.
+**Bienvisto** es una plataforma SaaS que transforma los datos de reputación corporativa en inteligencia accionable para las empresas. Se presenta en dos productos complementarios:
+
+- **Bienvisto Reputación** — Para directores de Comunicaciones y Sostenibilidad que necesitan medir, gestionar y comunicar su reputación corporativa.
+- **Bienvisto Satisfacción** — Para equipos comerciales que necesitan medir y mejorar la satisfacción de sus clientes.
 
 La plataforma permite a las organizaciones:
 
-- **Visualizar** su posición en rankings de reputación a través de dashboards interactivos.
-- **Analizar** la evolución de sus indicadores en el tiempo y compararse con su sector.
+- **Diagnosticar** su reputación y satisfacción a través de un flujo guiado de preguntas y documentos.
+- **Visualizar** sus indicadores en dashboards interactivos actualizados en tiempo real.
 - **Generar automáticamente** reportes ejecutivos, presentaciones y contenido multimedia mediante Inteligencia Artificial.
+- **Conectar** con sus redes sociales y fuentes noticiosas para mantener una medición viva y continua.
 
 El modelo de negocio es **freemium**: las empresas acceden a sus datos básicos sin costo y pagan por la generación de contenido AI según el plan contratado.
 
-**Bienvisto convierte los datos del CNC en un producto digital recurrente, escalable y de alto valor percibido para los clientes empresariales.**
+**Bienvisto es un modelo disruptivo: convierte los datos del CNC en un producto digital recurrente, escalable y de alto valor, sin precedentes en el mercado colombiano.**
 
 ---
 
@@ -31,13 +35,14 @@ El modelo de negocio es **freemium**: las empresas acceden a sus datos básicos 
 
 ### El problema
 
-Las empresas colombianas que participan en mediciones de reputación como Merco reciben resultados en formatos estáticos (informes PDF, presentaciones genéricas). Para convertir esos datos en acciones concretas, necesitan:
+Un director de Comunicaciones o de Sostenibilidad de una empresa mediana necesita medir su reputación, comunicar los resultados a su junta directiva y definir acciones de mejora. Para hacerlo hoy debe:
 
-- Contratar consultores que interpreten los resultados.
-- Crear presentaciones internas manualmente.
-- Hacer seguimiento temporal sin herramientas adecuadas.
+- Contratar una consultoría costosa que puede tardar semanas en entregar resultados.
+- Recibir informes estáticos (PDF genéricos) que no puede actualizar ni personalizar.
+- Crear presentaciones internas manualmente a partir de datos sin procesar.
+- Operar sin visibilidad de cómo evolucionan sus indicadores mes a mes.
 
-Esto genera **fricción, costos adicionales y subutilización de los datos** que el CNC ya posee.
+La mayoría de directivos en esta situación no tiene presupuesto para una consultoría completa y no cuenta con herramientas accesibles. **Los datos que el CNC ya posee están subutilizados: llegan a las empresas en formatos que no generan acción.**
 
 ### La oportunidad
 
@@ -51,56 +56,74 @@ Bienvisto convierte esa base de datos en una **plataforma digital de autoservici
 
 ### Mercado objetivo
 
-- **Primario:** Empresas que ya participan en mediciones Merco/IGR del CNC (cientos de empresas).
-- **Secundario:** Empresas que quieran medir y gestionar su reputación pero aún no participan (oportunidad de captación).
-- **Terciario:** Expansión a otros países donde Merco opera (México, Perú, Chile, Brasil, etc.).
+- **Bienvisto Reputación — Primario:** Directores de Comunicaciones y Sostenibilidad de empresas que ya participan en mediciones del CNC.
+- **Bienvisto Satisfacción — Primario:** Directores Comerciales y de Experiencia al Cliente que necesitan medición continua de satisfacción.
+- **Secundario:** Empresas que aún no participan en mediciones formales pero quieren hacerlo (oportunidad de captación para el CNC).
+- **Expansión:** Otros países donde el CNC tiene presencia o alianzas (México, Perú, Chile, Brasil).
 
 ---
 
 ## 3. Producto
 
-### 3.1 Descripción general
+### 3.1 Dos productos, una plataforma
 
-Bienvisto es una aplicación web accesible desde cualquier navegador, con tres niveles de acceso:
+| Producto | Comprador | Propuesta de valor |
+|----------|-----------|-------------------|
+| **Bienvisto Reputación** | Director de Comunicaciones / Sostenibilidad | Diagnóstico, monitoreo y comunicación de reputación corporativa |
+| **Bienvisto Satisfacción** | Director Comercial / Experiencia al Cliente | Medición continua y mejora de satisfacción de clientes |
+
+Ambos productos comparten infraestructura tecnológica y el mismo modelo de acceso:
 
 | Rol | Acceso | Funcionalidades |
 |-----|--------|-----------------|
 | **Administrador CNC** | Panel de administración | Cargar datos, gestionar empresas, configurar indicadores, ver métricas de uso |
 | **Empresa (cliente)** | Dashboard privado | Ver sus indicadores, generar contenido AI, descargar reportes, gestionar créditos |
-| **Público** | Rankings abiertos | Consultar rankings generales de reputación (configurable) |
+| **Público** | Rankings abiertos | Consultar rankings generales de reputación (configurable, con verificación) |
 
 ### 3.2 Funcionalidades principales
 
-#### Dashboard de Reputación
-- Visualización interactiva de indicadores IGR, Merco Empresas, Merco Talento, Merco Responsabilidad ESG, Merco Digital.
-- Evolución temporal: gráficas de tendencia por periodo (trimestral, anual).
+#### Flujo guiado de diagnóstico
+- El usuario responde un cuestionario o sube documentos propios (informes, comunicados, encuestas internas).
+- El sistema identifica los stakeholders relevantes según el tipo de empresa y sector.
+- Por cada stakeholder se genera un cuestionario específico.
+- Al finalizar: **diagnóstico + recomendaciones concretas**, respaldadas por casos reales de empresas similares (artículos de prensa, casos de gestión empresarial, marcos teóricos).
+
+#### Monitoreo en tiempo real
+- **Conexión a redes sociales:** Lo que pasa en las redes sociales de la empresa actualiza automáticamente su índice de reputación.
+- **Conexión a fuentes noticiosas:** Las noticias que mencionan a la empresa alimentan el índice continuamente.
+- Esto convierte la plataforma en una herramienta **viva**, no un análisis estático anual.
+
+#### Dashboard de Indicadores
+- Visualización interactiva de indicadores de reputación y satisfacción.
+- Evolución temporal: gráficas de tendencia por periodo (mensual, trimestral, anual).
 - Comparativo sectorial: posición de la empresa vs. promedio del sector.
-- Score general de reputación: indicador consolidado con semáforo visual.
+- Score consolidado con semáforo visual actualizado en tiempo real.
 
 #### Generación de Contenido con IA
-- **Reportes ejecutivos (PDF):** Análisis narrativo automatizado de los indicadores de la empresa, con gráficas, conclusiones y recomendaciones. Listo para presentar a junta directiva.
-- **Presentaciones (PPT):** Diapositivas profesionales con los datos clave, generadas automáticamente. *(Fase 2)*
-- **Videos narrativos:** Resúmenes en video con voz sintetizada y visualización de datos, estilo podcast ejecutivo. *(Fase 2)*
+- **Reportes ejecutivos (PDF):** Análisis narrativo automatizado con gráficas, conclusiones y recomendaciones. Listo para junta directiva.
+- **Presentaciones (PPT):** Diapositivas profesionales generadas automáticamente. *(Fase 2)*
+- **Videos narrativos:** Resúmenes en video con voz sintetizada, estilo podcast ejecutivo. *(Fase 2)*
+- Todo el contenido generado se identifica como **"Generado por Bienvisto AI"**.
 
 #### Sistema de Créditos
 - Cada empresa recibe créditos mensuales según su plan.
 - Cada generación de contenido consume créditos según su complejidad.
-- Historial completo de uso y consumo.
-- Recarga automática mensual.
+- Historial completo de uso y consumo. Recarga automática mensual.
 
 #### Panel de Administración CNC
 - Carga masiva de datos vía archivos CSV/Excel.
 - Gestión de empresas clientes (crear, editar, asignar planes).
-- Gestión de usuarios y roles.
 - Configuración de indicadores (cuáles existen, cuáles son públicos).
 - Métricas de uso de la plataforma.
 
-### 3.3 Rankings públicos
+### 3.3 Rankings públicos y verificación
 
 Página web pública donde se pueden consultar los rankings generales de reputación. Configurable por el CNC:
 - Qué indicadores se muestran públicamente.
 - Si se muestra el ranking completo o solo el top N.
 - Filtros por sector, tamaño de empresa, periodo.
+
+Para los índices generados por la propia empresa (no por el CNC), se implementará un **sistema de verificación** que valide la autenticidad de los datos antes de hacerlos públicos.
 
 Esto funciona como **herramienta de captación**: empresas que ven los rankings se interesan en tener su propio dashboard.
 
@@ -249,23 +272,25 @@ Indicador (definición global)
 
 ## 6. Plan de Implementación
 
-### Fase 1 — Prototipo funcional (4 semanas)
+### Fase 1 — MVP funcional (4 semanas)
 
-**Objetivo:** Demostrar el concepto con datos reales del CNC.
+**Objetivo:** Demostrar el concepto con datos reales del CNC, sin costo para el CNC.
 
 | Semana | Entregable |
 |--------|-----------|
-| 1 | Infraestructura base: autenticación, multi-tenancy, layout del dashboard, CRUD de empresas y usuarios |
+| 1 | Infraestructura base: autenticación, multi-tenancy, flujo de diagnóstico guiado, CRUD de empresas |
 | 2 | Carga de datos CSV/Excel, dashboard con gráficas de indicadores, comparativo temporal |
 | 3 | Generación de reportes PDF con IA, sistema de créditos, cola de procesamiento asíncrono |
-| 4 | Rankings públicos, empaquetado con Docker, datos de prueba, documentación |
+| 4 | Rankings públicos, integración inicial con redes sociales, datos de prueba, documentación |
 
-**Resultado:** Plataforma funcional que se puede demostrar a clientes potenciales con datos reales.
+**Resultado:** MVP funcional que se presenta al CNC. Si lo aprueban, se firma contrato y comienza el pago por los meses siguientes.
 
-### Fase 2 — MVP completo (8 semanas adicionales)
+### Fase 2 — Producto completo (8 semanas adicionales, ~$16M)
 
+- Flujo de diagnóstico completo con identificación de stakeholders y base de conocimiento de casos.
 - Generación de presentaciones PPT editables.
 - Generación de videos narrativos con voz sintetizada.
+- Integración con redes sociales y fuentes noticiosas para monitoreo en tiempo real.
 - Sistema de planes y facturación.
 - Login con Google/Microsoft (SSO).
 - Notificaciones por email.
@@ -356,21 +381,39 @@ Con el costo operativo mensual de ~$8.500.000 a $9.000.000:
 
 ### ¿Por qué Bienvisto?
 
-1. **Monetización de datos existentes:** Los datos de Merco/IGR que el CNC ya recopila se convierten en un producto digital recurrente.
+1. **Modelo disruptivo:** No es una mejora incremental sobre lo existente. Es la primera plataforma de autoservicio de reputación con IA en Colombia. Nadie más está haciendo esto.
 
-2. **Diferenciación competitiva:** Ningún otro proveedor de rankings de reputación en Colombia ofrece una plataforma de autoservicio con generación AI.
+2. **Monetización de datos existentes:** Los datos que el CNC ya recopila se convierten en un producto digital recurrente de alto valor, sin costo adicional de recolección.
 
-3. **Escalabilidad:** Una vez construida, la plataforma puede atender 10 o 1.000 empresas con el mismo equipo.
+3. **Herramienta viva:** La integración con redes sociales y noticias hace que el índice de reputación se actualice continuamente — no solo una vez al año.
 
-4. **Retención de clientes:** Las empresas que usan la plataforma regularmente tienen más razones para seguir participando en las mediciones del CNC.
+4. **Dos mercados, un solo producto:** Bienvisto Reputación y Bienvisto Satisfacción abren dos segmentos de compradores distintos dentro de cada empresa.
 
-5. **Expansión geográfica:** Merco opera en múltiples países. Bienvisto puede replicarse sin cambios significativos.
+5. **Escalabilidad:** Una vez construida, la plataforma atiende 10 o 1.000 empresas con el mismo equipo.
+
+6. **Retención de clientes:** Las empresas que usan la plataforma regularmente tienen más razones para seguir participando en las mediciones del CNC.
+
+7. **Expansión geográfica:** El modelo puede replicarse en otros países donde el CNC tiene presencia o alianzas.
 
 ### Modelo de asociación sugerido
 
 - **CNC aporta:** Datos, marca, relación comercial con clientes, validación metodológica.
-- **Equipo técnico aporta:** Desarrollo, mantenimiento, infraestructura tecnológica.
-- **Esquema de ingresos:** A definir conjuntamente (licenciamiento, revenue share, o modelo mixto).
+- **Equipo técnico aporta:** Desarrollo, mantenimiento, infraestructura tecnológica, conocimiento de reputación.
+- **Esquema de ingresos:** A definir conjuntamente. Participación societaria asimétrica (ej. 45/55) para garantizar que siempre exista una parte con mayoría decisoria y evitar bloqueos.
+
+### Estructura del contrato
+
+**Contrato a 6 meses con revisiones mensuales** y tres entregas concretas:
+
+| Hito | Entregable | Revisión |
+|------|-----------|----------|
+| **Mes 1** | MVP funcional con datos reales del CNC | Revisión mensual — validar dirección y ajustar prioridades |
+| **Mes 3** | **Bienvisto Satisfacción** completo — listo para primeras empresas piloto | Revisión mensual |
+| **Mes 5** | **Bienvisto Reputación** completo — monitoreo en tiempo real, IA, dashboard | Revisión mensual |
+
+Las revisiones mensuales permiten ajustar el alcance, prioridades y funcionalidades según el feedback del CNC y los primeros usuarios piloto.
+
+**Costo total estimado del contrato (6 meses):** ~$48.000.000
 
 ---
 
@@ -378,11 +421,13 @@ Con el costo operativo mensual de ~$8.500.000 a $9.000.000:
 
 | Paso | Responsable | Fecha estimada |
 |------|-------------|----------------|
-| Revisión y aprobación de esta propuesta | CNC + Equipo técnico | Semana del 6 de abril |
-| Entrega de archivo de datos de ejemplo (Merco/IGR) | CNC | Semana del 6 de abril |
+| Firma del contrato (6 meses) y acuerdo societario | CNC + Equipo técnico | Semana del 6 de abril |
+| Entrega de datos de reputación del CNC | CNC | Semana del 6 de abril |
 | Definición de precios por plan | CNC | Semana del 13 de abril |
-| Entrega del prototipo funcional | Equipo técnico | 11 de mayo de 2026 |
-| Demostración a clientes piloto | CNC + Equipo técnico | Semana del 18 de mayo |
+| **MVP — Decisión de iterar** | Equipo técnico | Mayo 2026 |
+| **Entrega Bienvisto Satisfacción — Revisión mes 3** | Equipo técnico | Julio 2026 |
+| Demostración a clientes piloto (Satisfacción) | CNC + Equipo técnico | Julio 2026 |
+| **Entrega Bienvisto Reputación — Revisión mes 5** | Equipo técnico | Septiembre 2026 |
 
 ---
 
