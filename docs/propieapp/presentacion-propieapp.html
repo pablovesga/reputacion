@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropieApp — Tu conjunto, en una sola app</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+
+/* ===========================================
+   VIEWPORT FITTING: MANDATORY BASE STYLES
+   =========================================== */
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+.slide {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.slide-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: 100%;
+    overflow: hidden;
+    padding: var(--slide-padding);
+}
+:root {
+    --title-size: clamp(1.5rem, 5vw, 4rem);
+    --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+    --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+    --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+    --small-size: clamp(0.65rem, 1vw, 0.875rem);
+    --slide-padding: clamp(1rem, 4vw, 4rem);
+    --content-gap: clamp(0.5rem, 2vw, 2rem);
+    --element-gap: clamp(0.25rem, 1vw, 1rem);
+}
+.card, .container, .content-box {
+    max-width: min(90vw, 1000px);
+    max-height: min(80vh, 700px);
+}
+.feature-list, .bullet-list {
+    gap: clamp(0.4rem, 1vh, 1rem);
+}
+.feature-list li, .bullet-list li {
+    font-size: var(--body-size);
+    line-height: 1.4;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+}
+img, .image-container {
+    max-width: 100%;
+    max-height: min(50vh, 400px);
+    object-fit: contain;
+}
+@media (max-height: 700px) {
+    :root {
+        --slide-padding: clamp(0.75rem, 3vw, 2rem);
+        --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+        --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+        --h2-size: clamp(1rem, 3vw, 1.75rem);
+    }
+}
+@media (max-height: 600px) {
+    :root {
+        --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+        --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+        --title-size: clamp(1.1rem, 4vw, 2rem);
+        --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+    }
+    .nav-dots, .keyboard-hint, .decorative { display: none; }
+}
+@media (max-height: 500px) {
+    :root {
+        --slide-padding: clamp(0.4rem, 2vw, 1rem);
+        --title-size: clamp(1rem, 3.5vw, 1.5rem);
+        --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+        --body-size: clamp(0.65rem, 1vw, 0.85rem);
+    }
+}
+@media (max-width: 600px) {
+    :root { --title-size: clamp(1.25rem, 7vw, 2.5rem); }
+    .grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+    html { scroll-behavior: auto; }
+}
+
+/* ===========================================
+   PROPIEAPP BRAND VARIABLES
+   =========================================== */
+:root {
+    --brand-primary: #667eea;
+    --brand-dark: #4a5db8;
+    --brand-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --brand-gradient-text: linear-gradient(135deg, #667eea, #a78bfa);
+    --dark-bg: #0f1117;
+    --dark-surface: #1a1d27;
+    --dark-border: rgba(255,255,255,0.08);
+    --light-bg: #f8f9fc;
+    --light-surface: #ffffff;
+    --text-primary-dark: #f0f2ff;
+    --text-secondary-dark: rgba(240,242,255,0.65);
+    --text-primary-light: #1a1d2e;
+    --text-secondary-light: #5b607a;
+    --wa-green: #25D366;
+    --wa-bubble-bot: #dcf8c6;
+    --wa-bubble-user: #ffffff;
+    --wa-bg: #e5ddd5;
+}
+
+/* ===========================================
+   GLOBAL RESET & BASE
+   =========================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--dark-bg);
+    color: var(--text-primary-dark);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===========================================
+   NAVIGATION
+   =========================================== */
+.nav-dots {
+    position: fixed;
+    right: clamp(0.75rem, 2vw, 1.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 100;
+}
+.nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    padding: 0;
+}
+.nav-dot.active {
+    background: var(--brand-primary);
+    transform: scale(1.4);
+}
+.nav-dot:hover { background: rgba(255,255,255,0.7); }
+
+.keyboard-hint {
+    position: fixed;
+    bottom: clamp(0.75rem, 2vh, 1.5rem);
+    right: clamp(0.75rem, 2vw, 1.5rem);
+    font-size: clamp(0.55rem, 0.8vw, 0.7rem);
+    color: rgba(255,255,255,0.25);
+    font-family: 'Manrope', sans-serif;
+    letter-spacing: 0.05em;
+    z-index: 100;
+}
+
+/* Slide counter */
+.slide-counter {
+    position: fixed;
+    bottom: clamp(0.75rem, 2vh, 1.5rem);
+    left: clamp(0.75rem, 2vw, 1.5rem);
+    font-size: var(--small-size);
+    color: rgba(255,255,255,0.2);
+    font-family: 'Manrope', sans-serif;
+    z-index: 100;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ===========================================
+   ANIMATIONS
+   =========================================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+/* ===========================================
+   GRADIENT TEXT UTILITY
+   =========================================== */
+.gradient-text {
+    background: var(--brand-gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ===========================================
+   SLIDE 1 — PORTADA
+   =========================================== */
+#slide-1 {
+    background: var(--dark-bg);
+    overflow: hidden;
+}
+#slide-1::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(102,126,234,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(118,75,162,0.12) 0%, transparent 60%);
+    pointer-events: none;
+}
+#slide-1 .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(102,126,234,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(102,126,234,0.06) 1px, transparent 1px);
+    background-size: clamp(30px, 4vw, 60px) clamp(30px, 4vw, 60px);
+    pointer-events: none;
+}
+.portada-inner {
+    display: flex;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+    width: 100%;
+    max-width: min(90vw, 1100px);
+    margin: 0 auto;
+}
+.portada-logo-area {
+    flex-shrink: 0;
+}
+.building-icon {
+    width: clamp(80px, 12vw, 150px);
+    height: clamp(80px, 12vw, 150px);
+    background: var(--brand-gradient);
+    border-radius: clamp(16px, 2vw, 28px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 60px rgba(102,126,234,0.4);
+}
+.building-icon svg {
+    width: 60%;
+    height: 60%;
+    fill: white;
+}
+.portada-text { flex: 1; }
+.portada-tagline {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--small-size);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand-primary);
+    margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+}
+.portada-title {
+    font-family: 'Syne', sans-serif;
+    font-size: var(--title-size);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--text-primary-dark);
+    margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+}
+.portada-subtitle {
+    font-size: var(--h3-size);
+    color: var(--text-secondary-dark);
+    font-weight: 400;
+    margin-bottom: clamp(1rem, 3vh, 2.5rem);
+    line-height: 1.4;
+}
+.portada-empresa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: var(--small-size);
+    color: var(--text-secondary-dark);
+    border: 1px solid var(--dark-border);
+    padding: 0.5em 1em;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.03);
+}
+.portada-empresa strong { color: var(--text-primary-dark); }
+
+/* ===========================================
+   SLIDE 2 — EL PROBLEMA
+   =========================================== */
+#slide-2 {
+    background: #0d0f1a;
+}
+#slide-2::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(239,68,68,0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+.problema-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: center;
+    width: 100%;
+    max-width: min(90vw, 1100px);
+    margin: 0 auto;
+}
+@media (max-width: 700px) {
+    .problema-layout { grid-template-columns: 1fr; }
+}
+.problema-header { margin-bottom: clamp(0.75rem, 2vh, 1.5rem); }
+.section-label {
+    font-size: var(--small-size);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ef4444;
+    margin-bottom: 0.4em;
+}
+.section-label.blue { color: var(--brand-primary); }
+.section-label.green { color: var(--wa-green); }
+.slide-title {
+    font-family: 'Syne', sans-serif;
+    font-size: var(--h2-size);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text-primary-dark);
+}
+.problema-desc {
+    font-size: var(--body-size);
+    color: var(--text-secondary-dark);
+    line-height: 1.6;
+    margin-top: clamp(0.5rem, 1vh, 0.75rem);
+}
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.4rem, 1vh, 0.75rem);
+}
+.timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75em;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--dark-border);
+    border-radius: 12px;
+    padding: clamp(0.5rem, 1.5vh, 1rem) clamp(0.75rem, 2vw, 1.25rem);
+}
+.timeline-time {
+    font-size: var(--small-size);
+    font-weight: 700;
+    color: #ef4444;
+    white-space: nowrap;
+    min-width: 3.5em;
+    font-variant-numeric: tabular-nums;
+}
+.timeline-text {
+    font-size: var(--small-size);
+    color: var(--text-secondary-dark);
+    line-height: 1.4;
+}
+.timeline-text strong { color: var(--text-primary-dark); }
+
+/* ===========================================
+   SLIDE 3 — FRAGMENTACIÓN
+   =========================================== */
+#slide-3 { background: var(--dark-bg); }
+#slide-3::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(102,126,234,0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+.fragment-layout {
+    width: 100%;
+    max-width: min(90vw, 1100px);
+    margin: 0 auto;
+}
+.fragment-tools {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    margin-top: clamp(0.75rem, 2vh, 1.5rem);
+}
+@media (max-width: 600px) {
+    .fragment-tools { grid-template-columns: repeat(2, 1fr); }
+}
+.tool-card {
+    background: var(--dark-surface);
+    border: 1px solid var(--dark-border);
+    border-radius: 12px;
+    padding: clamp(0.75rem, 2vw, 1.25rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+    position: relative;
+    overflow: hidden;
+}
+.tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--brand-gradient);
+    opacity: 0.5;
+}
+.tool-icon {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    margin-bottom: 0.2em;
+}
+.tool-name {
+    font-size: var(--body-size);
+    font-weight: 700;
+    color: var(--text-primary-dark);
+}
+.tool-pain {
+    font-size: var(--small-size);
+    color: var(--text-secondary-dark);
+    line-height: 1.4;
+}
+.fragment-arrow {
+    text-align: center;
+    font-size: var(--small-size);
+    color: #ef4444;
+    font-weight: 600;
+    margin-top: clamp(0.75rem, 2vh, 1.5rem);
+    letter-spacing: 0.05em;
+}
+.fragment-header { margin-bottom: clamp(0.25rem, 1vh, 0.5rem); }
+
+/* ===========================================
+   SLIDE 4 — LA SOLUCIÓN
+   =========================================== */
+#slide-4 {
+    background: var(--light-bg);
+    color: var(--text-primary-light);
+}
+.solution-layout {
+    width: 100%;
+    max-width: min(90vw, 1100px);
+    margin: 0 auto;
+}
+.solution-header { margin-bottom: clamp(0.75rem, 2vh, 1.5rem); }
+.solution-header .section-label { color: var(--brand-primary); }
+.solution-header .slide-title { color: var(--text-primary-light); }
+.solution-header .slide-title span { background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(0.5rem, 1.5vw, 0.875rem);
+}
+@media (max-width: 700px) { .modules-grid { grid-template-columns: repeat(2, 1fr); } }
+.module-card {
+    background: var(--light-surface);
+    border: 1.5px solid rgba(102,126,234,0.15);
+    border-radius: 14px;
+    padding: clamp(0.75rem, 2vw, 1.25rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.module-card:hover {
+    border-color: var(--brand-primary);
+    box-shadow: 0 4px 24px rgba(102,126,234,0.15);
+}
+.module-icon {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    color: var(--brand-primary);
+}
+.module-name {
+    font-size: var(--body-size);
+    font-weight: 700;
+    color: var(--text-primary-light);
+}
+.module-desc {
+    font-size: var(--small-size);
+    color: var(--text-secondary-light);
+    line-height: 1.4;
+}
+.solution-footer {
+    text-align: center;
+    margin-top: clamp(0.5rem, 1.5vh, 1rem);
+    font-size: var(--small-size);
+    color: var(--text-secondary-light);
+    font-style: italic;
+}
+
+/* ===========================================
+   SLIDE 5 — WHATSAPP BOT CON IA
+   =========================================== */
+#slide-5 {
+    background: #0a1a10;
+}
+#slide-5::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 70% 60% at 70% 50%, rgba(37,211,102,0.1) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 15% 50%, rgba(37,211,102,0.05) 0%, transparent 60%);
+    pointer-events: none;
+}
+.wa-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+    width: 100%;
+    max-width: min(90vw, 1100px);
+    margin: 0 auto;
+}
+@media (max-width: 700px) { .wa-layout { grid-template-columns: 1fr; } }
+.wa-left .section-label { color: var(--wa-green); }
+.wa-left .slide-title { color: var(--text-primary-dark); }
+.wa-benefits {
+    margin-top: clamp(0.75rem, 2vh, 1.25rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.4rem, 1vh, 0.75rem);
+}
+.wa-benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75em;
+    font-size: var(--body-size);
+    color: var(--text-secondary-dark);
+    line-height: 1.4;
+}
+.wa-benefit i {
+    color: var(--wa-green);
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    flex-shrink: 0;
+    margin-top: 0.1em;
+}
+.wa-benefit strong { color: var(--text-primary-dark); }
+
+/* WhatsApp Chat UI */
+.wa-chat {
+    background: var(--wa-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: min(55vh, 480px);
+}
+.wa-chat-header {
+    background: #075E54;
+    padding: clamp(0.5rem, 1.5vh, 0.875rem) clamp(0.75rem, 2vw, 1.25rem);
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+}
+.wa-chat-avatar {
+    width: clamp(28px, 4vw, 38px);
+    height: clamp(28px, 4vw, 38px);
+    background: var(--wa-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    flex-shrink: 0;
+}
+.wa-chat-info .name {
+    font-size: var(--small-size);
+    font-weight: 700;
+    color: white;
+}
+.wa-chat-info .status {
+    font-size: clamp(0.55rem, 0.8vw, 0.7rem);
+    color: rgba(255,255,255,0.65);
+}
+.wa-messages {
+    flex: 1;
+    padding: clamp(0.5rem, 1.5vh, 0.875rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.35rem, 1vh, 0.6rem);
+    overflow: hidden;
+}
+.wa-msg {
+    max-width: 85%;
+    padding: clamp(0.4rem, 1vh, 0.6rem) clamp(0.6rem, 1.5vw, 0.875rem);
+    border-radius: 12px;
+    font-size: var(--small-size);
+    line-height: 1.45;
+    position: relative;
+    font-family: 'Manrope', sans-serif;
+}
+.wa-msg.user {
+    background: var(--wa-bubble-user);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    color: #1a1a1a;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+.wa-msg.bot {
+    background: var(--wa-bubble-bot);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    color: #1a1a1a;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+.wa-msg-time {
+    font-size: clamp(0.5rem, 0.7vw, 0.62rem);
+    color: rgba(0,0,0,0.35);
+    text-align: right;
+    margin-top: 0.25em;
+}
+
+/* ===========================================
+   SLIDE 6 — DECRETO 768
+   =========================================== */
+#slide-6 {
+    background: var(--light-bg);
+    color: var(--text-primary-light);
+}
+.decreto-layout {
+    width: 100%;
+    max-width: min(90vw, 1000px);
+    margin: 0 auto;
+}
+.decreto-header { margin-bottom: clamp(0.75rem, 2vh, 1.5rem); }
+.decreto-header .section-label { color: var(--brand-primary); }
+.decreto-header .slide-title { color: var(--text-primary-light); }
+.decreto-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    background: rgba(102,126,234,0.1);
+    border: 1px solid rgba(102,126,234,0.3);
+    color: var(--brand-primary);
+    font-size: var(--small-size);
+    font-weight: 700;
+    padding: 0.3em 0.8em;
+    border-radius: 100px;
+    margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+}
+.decreto-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 clamp(0.3rem, 0.8vh, 0.5rem);
+}
+.decreto-table tr td {
+    padding: clamp(0.5rem, 1.5vh, 0.875rem) clamp(0.75rem, 2vw, 1.25rem);
+    font-size: var(--small-size);
+    vertical-align: middle;
+}
+.decreto-table tr td:first-child {
+    background: rgba(239,68,68,0.06);
+    border: 1px solid rgba(239,68,68,0.15);
+    border-radius: 10px 0 0 10px;
+    color: #b91c1c;
+    font-weight: 600;
+    width: 48%;
+}
+.decreto-table tr td:last-child {
+    background: rgba(102,126,234,0.06);
+    border: 1px solid rgba(102,126,234,0.15);
+    border-radius: 0 10px 10px 0;
+    color: var(--brand-dark);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.decreto-table tr td:last-child i {
+    color: #22c55e;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    flex-shrink: 0;
+}
+.decreto-footer {
+    text-align: center;
+    margin-top: clamp(0.75rem, 2vh, 1.25rem);
+    font-size: var(--small-size);
+    color: var(--text-secondary-light);
+    font-style: italic;
+}
+
+/* ===========================================
+   SLIDE 7 — PRECIOS
+   =========================================== */
+#slide-7 {
+    background: var(--dark-bg);
+}
+#slide-7::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(102,126,234,0.1) 0%, transparent 65%);
+    pointer-events: none;
+}
+.precios-layout {
+    width: 100%;
+    max-width: min(90vw, 1100px);
+    margin: 0 auto;
+}
+.precios-header { margin-bottom: clamp(0.75rem, 2vh, 1.5rem); }
+.precios-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+}
+@media (max-width: 800px) { .precios-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .precios-grid { grid-template-columns: 1fr; } }
+.precio-card {
+    background: var(--dark-surface);
+    border: 1.5px solid var(--dark-border);
+    border-radius: 16px;
+    padding: clamp(0.75rem, 2vw, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.precio-card.featured {
+    border-color: var(--brand-primary);
+    background: linear-gradient(160deg, rgba(102,126,234,0.12), var(--dark-surface));
+}
+.precio-card.featured::before {
+    content: 'Más popular';
+    position: absolute;
+    top: 0.6em; right: 0.6em;
+    font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--brand-gradient);
+    color: white;
+    padding: 0.2em 0.6em;
+    border-radius: 100px;
+}
+.precio-plan {
+    font-family: 'Syne', sans-serif;
+    font-size: var(--h3-size);
+    font-weight: 800;
+    color: var(--text-primary-dark);
+}
+.precio-para {
+    font-size: var(--small-size);
+    color: var(--text-secondary-dark);
+    line-height: 1.3;
+    min-height: 2.6em;
+}
+.precio-anual {
+    font-size: var(--h3-size);
+    font-weight: 800;
+    background: var(--brand-gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-top: 0.25em;
+}
+.precio-mensual {
+    font-size: var(--small-size);
+    color: var(--text-secondary-dark);
+}
+.precio-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--dark-border);
+    margin: 0.25em 0;
+}
+.precio-apto {
+    font-size: var(--small-size);
+    color: var(--text-secondary-dark);
+    font-style: italic;
+}
+
+/* ===========================================
+   SLIDE 8 — ROI
+   =========================================== */
+#slide-8 { background: var(--dark-bg); }
+#slide-8::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 70% at 0% 50%, rgba(102,126,234,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 100% 30%, rgba(34,197,94,0.08) 0%, transparent 55%);
+    pointer-events: none;
+}
+.roi-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+    width: 100%;
+    max-width: min(90vw, 1100px);
+    margin: 0 auto;
+}
+@media (max-width: 700px) { .roi-layout { grid-template-columns: 1fr; } }
+.roi-left {}
+.roi-big {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    background: var(--brand-gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.roi-label {
+    font-size: var(--body-size);
+    color: var(--text-secondary-dark);
+    margin-top: 0.25em;
+}
+.roi-equation {
+    margin-top: clamp(1rem, 3vh, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.4rem, 1.2vh, 0.75rem);
+}
+.roi-eq-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--dark-border);
+    border-radius: 10px;
+    padding: clamp(0.5rem, 1.5vh, 0.875rem) clamp(0.75rem, 2vw, 1.25rem);
+}
+.roi-eq-icon {
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: var(--brand-primary);
+    flex-shrink: 0;
+}
+.roi-eq-text {
+    flex: 1;
+    font-size: var(--body-size);
+    color: var(--text-secondary-dark);
+    line-height: 1.3;
+}
+.roi-eq-text strong { color: var(--text-primary-dark); }
+.roi-eq-op {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: var(--text-secondary-dark);
+    flex-shrink: 0;
+}
+.roi-result {
+    background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05));
+    border: 1.5px solid rgba(34,197,94,0.3);
+    border-radius: 14px;
+    padding: clamp(0.75rem, 2.5vh, 1.5rem) clamp(1rem, 3vw, 2rem);
+    text-align: center;
+    margin-top: clamp(0.75rem, 2vh, 1.25rem);
+}
+.roi-result .result-label {
+    font-size: var(--small-size);
+    color: rgba(34,197,94,0.8);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25em;
+}
+.roi-result .result-value {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    font-weight: 800;
+    color: #22c55e;
+}
+.roi-result .result-sub {
+    font-size: var(--small-size);
+    color: var(--text-secondary-dark);
+    margin-top: 0.2em;
+}
+
+/* ===========================================
+   SLIDE 9 — PROGRAMA PILOTO
+   =========================================== */
+#slide-9 { background: var(--light-bg); color: var(--text-primary-light); }
+.piloto-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+    width: 100%;
+    max-width: min(90vw, 1100px);
+    margin: 0 auto;
+}
+@media (max-width: 700px) { .piloto-layout { grid-template-columns: 1fr; } }
+.piloto-header { margin-bottom: clamp(0.75rem, 2vh, 1.5rem); }
+.piloto-header .section-label { color: var(--brand-primary); }
+.piloto-header .slide-title { color: var(--text-primary-light); }
+.piloto-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    background: rgba(102,126,234,0.08);
+    border: 1px solid rgba(102,126,234,0.2);
+    border-radius: 100px;
+    padding: 0.35em 0.9em;
+    font-size: var(--small-size);
+    font-weight: 700;
+    color: var(--brand-primary);
+    margin-top: 0.5em;
+}
+.beneficios-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.4rem, 1vh, 0.75rem);
+}
+.beneficio-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75em;
+    background: var(--light-surface);
+    border: 1.5px solid rgba(102,126,234,0.12);
+    border-radius: 12px;
+    padding: clamp(0.5rem, 1.5vh, 0.875rem) clamp(0.75rem, 2vw, 1.25rem);
+}
+.beneficio-icon {
+    width: clamp(28px, 3.5vw, 38px);
+    height: clamp(28px, 3.5vw, 38px);
+    border-radius: 8px;
+    background: var(--brand-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: clamp(0.75rem, 1.5vw, 1rem);
+    flex-shrink: 0;
+}
+.beneficio-body {}
+.beneficio-title {
+    font-size: var(--body-size);
+    font-weight: 700;
+    color: var(--text-primary-light);
+    line-height: 1.3;
+}
+.beneficio-sub {
+    font-size: var(--small-size);
+    color: var(--text-secondary-light);
+    line-height: 1.3;
+}
+.condiciones-box {
+    background: var(--light-surface);
+    border: 1.5px solid rgba(102,126,234,0.12);
+    border-radius: 14px;
+    padding: clamp(1rem, 3vw, 1.75rem);
+}
+.condiciones-title {
+    font-size: var(--body-size);
+    font-weight: 700;
+    color: var(--text-primary-light);
+    margin-bottom: clamp(0.5rem, 1.5vh, 0.75rem);
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.condiciones-title i { color: var(--brand-primary); }
+.condicion-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6em;
+    font-size: var(--small-size);
+    color: var(--text-secondary-light);
+    margin-bottom: 0.45em;
+    line-height: 1.4;
+}
+.condicion-item i { color: #22c55e; flex-shrink: 0; font-size: clamp(0.75rem, 1vw, 0.9rem); }
+.condiciones-nota {
+    margin-top: clamp(0.75rem, 2vh, 1.25rem);
+    padding: clamp(0.5rem, 1.5vh, 0.75rem);
+    background: rgba(102,126,234,0.05);
+    border-radius: 8px;
+    font-size: var(--small-size);
+    color: var(--text-secondary-light);
+    font-style: italic;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* ===========================================
+   SLIDE 10 — CTA
+   =========================================== */
+#slide-10 {
+    background: var(--dark-bg);
+}
+#slide-10::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(102,126,234,0.14) 0%, transparent 70%),
+        linear-gradient(180deg, transparent 40%, rgba(118,75,162,0.08) 100%);
+    pointer-events: none;
+}
+.cta-inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.75rem, 2vh, 1.5rem);
+    width: 100%;
+    max-width: min(80vw, 700px);
+    margin: 0 auto;
+}
+.cta-logo {
+    width: clamp(50px, 7vw, 80px);
+    height: clamp(50px, 7vw, 80px);
+    background: var(--brand-gradient);
+    border-radius: clamp(12px, 1.5vw, 18px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 50px rgba(102,126,234,0.35);
+}
+.cta-logo i { color: white; font-size: clamp(1.2rem, 3vw, 2rem); }
+.cta-title {
+    font-family: 'Syne', sans-serif;
+    font-size: var(--h2-size);
+    font-weight: 800;
+    color: var(--text-primary-dark);
+    line-height: 1.2;
+}
+.cta-subtitle {
+    font-size: var(--body-size);
+    color: var(--text-secondary-dark);
+    line-height: 1.5;
+    max-width: 500px;
+}
+.cta-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.5rem, 2vw, 1rem);
+    justify-content: center;
+    margin-top: 0.25em;
+}
+.cta-contact {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--dark-border);
+    border-radius: 100px;
+    padding: 0.6em 1.2em;
+    font-size: var(--body-size);
+    font-weight: 600;
+    color: var(--text-primary-dark);
+    text-decoration: none;
+    transition: all 0.25s;
+}
+.cta-contact:hover {
+    background: rgba(102,126,234,0.15);
+    border-color: var(--brand-primary);
+}
+.cta-contact.wa { border-color: rgba(37,211,102,0.3); }
+.cta-contact.wa i { color: var(--wa-green); }
+.cta-contact.mail i { color: var(--brand-primary); }
+.cta-contact.web i { color: #a78bfa; }
+.cta-tagline {
+    font-size: var(--small-size);
+    color: var(--text-secondary-dark);
+    letter-spacing: 0.06em;
+    font-style: italic;
+}
+
+</style>
+</head>
+<body>
+
+<!-- === NAVIGATION DOTS === -->
+<nav class="nav-dots" aria-label="Navegación de diapositivas">
+  <button class="nav-dot active" data-slide="0" title="Portada"></button>
+  <button class="nav-dot" data-slide="1" title="El Problema"></button>
+  <button class="nav-dot" data-slide="2" title="La Fragmentación"></button>
+  <button class="nav-dot" data-slide="3" title="La Solución"></button>
+  <button class="nav-dot" data-slide="4" title="WhatsApp Bot"></button>
+  <button class="nav-dot" data-slide="5" title="Decreto 768"></button>
+  <button class="nav-dot" data-slide="6" title="Precios"></button>
+  <button class="nav-dot" data-slide="7" title="ROI"></button>
+  <button class="nav-dot" data-slide="8" title="Programa Piloto"></button>
+  <button class="nav-dot" data-slide="9" title="Contacto"></button>
+</nav>
+
+<div class="slide-counter"><span id="current-slide">1</span> / 10</div>
+<div class="keyboard-hint">← → Navegar · Esc Inicio</div>
+
+<!-- ============================================================
+     SLIDE 1: PORTADA
+     ============================================================ -->
+<section class="slide" id="slide-1" data-index="0">
+  <div class="grid-bg"></div>
+  <div class="slide-content" style="justify-content: center;">
+    <div class="portada-inner">
+      <div class="portada-logo-area reveal">
+        <div class="building-icon">
+          <!-- Edificio SVG inline -->
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="16" width="48" height="44" rx="2"/>
+            <rect x="4" y="12" width="56" height="8" rx="1" fill="rgba(255,255,255,0.35)"/>
+            <rect x="14" y="24" width="8" height="8" rx="1" fill="rgba(255,255,255,0.4)"/>
+            <rect x="28" y="24" width="8" height="8" rx="1" fill="rgba(255,255,255,0.4)"/>
+            <rect x="42" y="24" width="8" height="8" rx="1" fill="rgba(255,255,255,0.4)"/>
+            <rect x="14" y="38" width="8" height="8" rx="1" fill="rgba(255,255,255,0.4)"/>
+            <rect x="42" y="38" width="8" height="8" rx="1" fill="rgba(255,255,255,0.4)"/>
+            <rect x="26" y="40" width="12" height="20" rx="1" fill="rgba(255,255,255,0.35)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="portada-text">
+        <p class="portada-tagline reveal delay-1">Software de gestión residencial</p>
+        <h1 class="portada-title reveal delay-2"><span class="gradient-text">PropieApp</span></h1>
+        <p class="portada-subtitle reveal delay-3">Tu conjunto, en una sola app.<br>Mora · Reservas · WhatsApp Bot · Decreto 768</p>
+        <div class="portada-empresa reveal delay-4">
+          <i class="bi bi-buildings"></i>
+          <span><strong>Solución PC S.A.S</strong> · NIT 900.957.301-4 · propieapp.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 2: EL PROBLEMA
+     ============================================================ -->
+<section class="slide" id="slide-2" data-index="1">
+  <div class="slide-content">
+    <div class="problema-layout">
+      <div>
+        <div class="problema-header">
+          <p class="section-label reveal">El Problema</p>
+          <h2 class="slide-title reveal delay-1">El día real de un<br>administrador</h2>
+          <p class="problema-desc reveal delay-2">Desde que abre los ojos hasta que cierra el día, su teléfono no para. Y la mitad del trabajo se hace dos veces.</p>
+        </div>
+      </div>
+      <div class="timeline reveal delay-1">
+        <div class="timeline-item reveal delay-2">
+          <span class="timeline-time">6:00am</span>
+          <span class="timeline-text"><strong>20 mensajes en el grupo.</strong> Preguntas de mora, quejas de ruido, "buenos días" y una reserva de salón sin confirmar.</span>
+        </div>
+        <div class="timeline-item reveal delay-3">
+          <span class="timeline-time">9:30am</span>
+          <span class="timeline-text"><strong>Doble reserva del salón.</strong> Un residente lo agendó en el cuaderno. Otro en el chat. Usted debe resolver el conflicto.</span>
+        </div>
+        <div class="timeline-item reveal delay-4">
+          <span class="timeline-time">2:00pm</span>
+          <span class="timeline-text"><strong>"¿Estoy en mora?"</strong> Busca en Excel, filtra, llama de vuelta. 5 minutos por consulta. 8 consultas al día = 40 minutos perdidos.</span>
+        </div>
+        <div class="timeline-item reveal delay-5">
+          <span class="timeline-time">4:45pm</span>
+          <span class="timeline-text"><strong>El consejo pide reporte para mañana.</strong> Excel desactualizado, imprime, reza para que cuadre. Hasta las 7pm.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3: LA FRAGMENTACIÓN
+     ============================================================ -->
+<section class="slide" id="slide-3" data-index="2">
+  <div class="slide-content">
+    <div class="fragment-layout">
+      <div class="fragment-header">
+        <p class="section-label reveal">El Origen del Caos</p>
+        <h2 class="slide-title reveal delay-1">6 herramientas<br><span class="gradient-text">desconectadas</span></h2>
+      </div>
+      <div class="fragment-tools">
+        <div class="tool-card reveal delay-1">
+          <div class="tool-icon">📓</div>
+          <div class="tool-name">Cuaderno físico</div>
+          <div class="tool-pain">Reservas a mano. Si el cuaderno no está, no hay reserva.</div>
+        </div>
+        <div class="tool-card reveal delay-2">
+          <div class="tool-icon">📊</div>
+          <div class="tool-name">Excel de mora</div>
+          <div class="tool-pain">Desactualizado. Errores de fórmula. Imposible exportar al banco.</div>
+        </div>
+        <div class="tool-card reveal delay-3">
+          <div class="tool-icon">💬</div>
+          <div class="tool-name">WhatsApp personal</div>
+          <div class="tool-pain">Mezcla su vida con el trabajo. Disponible 24/7 sin querer.</div>
+        </div>
+        <div class="tool-card reveal delay-4">
+          <div class="tool-icon">📋</div>
+          <div class="tool-name">Grupo de WhatsApp</div>
+          <div class="tool-pain">Información perdida entre cadenas y memes. Imposible rastrear.</div>
+        </div>
+        <div class="tool-card reveal delay-5">
+          <div class="tool-icon">🖨️</div>
+          <div class="tool-name">Reportes en papel</div>
+          <div class="tool-pain">Imprime, archiva, busca. Auditoría DIAN pide soporte de 3 años.</div>
+        </div>
+        <div class="tool-card reveal delay-6">
+          <div class="tool-icon">📞</div>
+          <div class="tool-name">Llamadas al celular</div>
+          <div class="tool-pain">Interrumpen reuniones, fines de semana y vacaciones.</div>
+        </div>
+      </div>
+      <p class="fragment-arrow reveal delay-6">↓ &nbsp; Todo esto puede reemplazarse con una sola plataforma &nbsp; ↓</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4: LA SOLUCIÓN
+     ============================================================ -->
+<section class="slide" id="slide-4" data-index="3">
+  <div class="slide-content">
+    <div class="solution-layout">
+      <div class="solution-header">
+        <p class="section-label reveal">La Solución</p>
+        <h2 class="slide-title reveal delay-1"><span>PropieApp</span> — Todo en una sola pantalla</h2>
+      </div>
+      <div class="modules-grid">
+        <div class="module-card reveal delay-1">
+          <i class="bi bi-cash-stack module-icon"></i>
+          <div class="module-name">Gestión de Mora</div>
+          <div class="module-desc">Carga CSV del banco → mora actualizada al instante. Sin Excel.</div>
+        </div>
+        <div class="module-card reveal delay-2">
+          <i class="bi bi-calendar-check module-icon"></i>
+          <div class="module-name">Zonas Comunes</div>
+          <div class="module-desc">Reservas online. Sin dobles. Aprueba con un clic.</div>
+        </div>
+        <div class="module-card reveal delay-3">
+          <i class="bi bi-people module-icon"></i>
+          <div class="module-name">Usuarios y Residentes</div>
+          <div class="module-desc">Base de datos completa. Carga masiva CSV. Correo automático.</div>
+        </div>
+        <div class="module-card reveal delay-4">
+          <i class="bi bi-file-earmark-pdf module-icon"></i>
+          <div class="module-name">Reportes al Consejo</div>
+          <div class="module-desc">PDF con un clic: mora, reservas, historial. Con firma digital.</div>
+        </div>
+        <div class="module-card reveal delay-5">
+          <i class="bi bi-phone module-icon"></i>
+          <div class="module-name">PWA Instalable</div>
+          <div class="module-desc">"La app del conjunto" en el celular. Sin Play Store ni App Store.</div>
+        </div>
+        <div class="module-card reveal delay-6">
+          <i class="bi bi-whatsapp module-icon"></i>
+          <div class="module-name">WhatsApp Bot IA</div>
+          <div class="module-desc">Responde consultas 24/7. Sin que usted intervenga.</div>
+        </div>
+      </div>
+      <p class="solution-footer reveal delay-6">PHP 8 · MySQL · Bootstrap · PWA · Meta Cloud API · Colombia</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5: WHATSAPP BOT CON IA
+     ============================================================ -->
+<section class="slide" id="slide-5" data-index="4">
+  <div class="slide-content">
+    <div class="wa-layout">
+      <div class="wa-left">
+        <p class="section-label reveal">Diferenciador #1</p>
+        <h2 class="slide-title reveal delay-1">WhatsApp Bot<br>con IA</h2>
+        <div class="wa-benefits">
+          <div class="wa-benefit reveal delay-2">
+            <i class="bi bi-clock-history"></i>
+            <span><strong>Responde 24/7</strong> — Residentes consultan mora o reservan zonas sin llamarle.</span>
+          </div>
+          <div class="wa-benefit reveal delay-3">
+            <i class="bi bi-emoji-smile"></i>
+            <span><strong>Lenguaje natural</strong> — El bot entiende "¿Debo algo?" sin menús complicados.</span>
+          </div>
+          <div class="wa-benefit reveal delay-4">
+            <i class="bi bi-currency-dollar"></i>
+            <span><strong>Modelo inbound</strong> — El residente escribe primero. Para usted, el costo es cero.</span>
+          </div>
+          <div class="wa-benefit reveal delay-5">
+            <i class="bi bi-shield-check"></i>
+            <span><strong>Multi-tenant seguro</strong> — Cada conjunto aislado. Sus datos son solo suyos.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- WhatsApp Chat Mockup -->
+      <div class="wa-chat reveal delay-2">
+        <div class="wa-chat-header">
+          <div class="wa-chat-avatar"><i class="bi bi-robot"></i></div>
+          <div class="wa-chat-info">
+            <div class="name">Asistente Conjunto Los Álamos</div>
+            <div class="status">● en línea</div>
+          </div>
+        </div>
+        <div class="wa-messages">
+          <div class="wa-msg user">
+            Hola, ¿estoy al día con la administración?
+            <div class="wa-msg-time">10:32 ✓✓</div>
+          </div>
+          <div class="wa-msg bot">
+            ¡Hola Carlos! El apto Torre B-402 está <strong>al día</strong> con la administración. ✅<br>¿Hay algo más en que pueda ayudarte?
+            <div class="wa-msg-time">10:32</div>
+          </div>
+          <div class="wa-msg user">
+            Quiero reservar la piscina para el domingo
+            <div class="wa-msg-time">10:34 ✓✓</div>
+          </div>
+          <div class="wa-msg bot">
+            Horarios disponibles para el domingo 29 de marzo:<br>
+            1️⃣ 8:00am – 12:00pm<br>
+            2️⃣ 2:00pm – 6:00pm<br>¿Cuál prefieres?
+            <div class="wa-msg-time">10:34</div>
+          </div>
+          <div class="wa-msg user">
+            La 2
+            <div class="wa-msg-time">10:35 ✓✓</div>
+          </div>
+          <div class="wa-msg bot">
+            ✅ Tu reserva está registrada para el dom. 29, 2:00–6:00pm. El administrador la confirmará pronto.
+            <div class="wa-msg-time">10:35</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6: DECRETO 768
+     ============================================================ -->
+<section class="slide" id="slide-6" data-index="5">
+  <div class="slide-content">
+    <div class="decreto-layout">
+      <div class="decreto-header">
+        <div class="decreto-badge reveal"><i class="bi bi-shield-fill-check"></i> Cumplimiento automático</div>
+        <p class="section-label reveal">Decreto 768 de 2025</p>
+        <h2 class="slide-title reveal delay-1" style="color: var(--text-primary-light);">Sus obligaciones cubiertas<br>desde el primer día</h2>
+      </div>
+      <table class="decreto-table">
+        <tr class="reveal delay-2">
+          <td><i class="bi bi-exclamation-triangle-fill" style="color:#ef4444;margin-right:.4em;"></i>Auditorías trimestrales con evidencia documental</td>
+          <td><i class="bi bi-check-circle-fill"></i>Reporte PDF con un clic — fecha, hora y datos verificables</td>
+        </tr>
+        <tr class="reveal delay-3">
+          <td><i class="bi bi-exclamation-triangle-fill" style="color:#ef4444;margin-right:.4em;"></i>Transparencia en gestión económica</td>
+          <td><i class="bi bi-check-circle-fill"></i>Dashboard en tiempo real para el consejo 24/7</td>
+        </tr>
+        <tr class="reveal delay-4">
+          <td><i class="bi bi-exclamation-triangle-fill" style="color:#ef4444;margin-right:.4em;"></i>Registro de visitantes trazable</td>
+          <td><i class="bi bi-check-circle-fill"></i>Módulo de portería digital — próxima versión</td>
+        </tr>
+        <tr class="reveal delay-5">
+          <td><i class="bi bi-exclamation-triangle-fill" style="color:#ef4444;margin-right:.4em;"></i>Reportes accesibles para la alcaldía</td>
+          <td><i class="bi bi-check-circle-fill"></i>Exportable en PDF en cualquier momento</td>
+        </tr>
+      </table>
+      <p class="decreto-footer reveal delay-6">Sin PropieApp: semanas de recopilación de papeles por auditoría. Con PropieApp: selecciona el rango y descarga el PDF.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7: PRECIOS
+     ============================================================ -->
+<section class="slide" id="slide-7" data-index="6">
+  <div class="slide-content">
+    <div class="precios-layout">
+      <div class="precios-header">
+        <p class="section-label blue reveal">Precios claros</p>
+        <h2 class="slide-title reveal delay-1">Sin sorpresas.<br><span class="gradient-text">Facturación anual.</span></h2>
+      </div>
+      <div class="precios-grid">
+        <div class="precio-card reveal delay-2">
+          <div class="precio-plan">Starter</div>
+          <div class="precio-para">Hasta 50 aptos — consejo que administra directo</div>
+          <div class="precio-divider"></div>
+          <div class="precio-anual">$1.620.000</div>
+          <div class="precio-mensual">$135.000 / mes · COP</div>
+          <div class="precio-apto">≤ 50 aptos</div>
+        </div>
+        <div class="precio-card featured reveal delay-3">
+          <div class="precio-plan">Pro</div>
+          <div class="precio-para">51–200 aptos — administrador profesional</div>
+          <div class="precio-divider"></div>
+          <div class="precio-anual">$3.420.000</div>
+          <div class="precio-mensual">$285.000 / mes · COP</div>
+          <div class="precio-apto">51–200 aptos</div>
+        </div>
+        <div class="precio-card reveal delay-4">
+          <div class="precio-plan">Enterprise</div>
+          <div class="precio-para">201–500 aptos — conjuntos grandes</div>
+          <div class="precio-divider"></div>
+          <div class="precio-anual">$6.840.000</div>
+          <div class="precio-mensual">$570.000 / mes · COP</div>
+          <div class="precio-apto">201–500 aptos</div>
+        </div>
+        <div class="precio-card reveal delay-5">
+          <div class="precio-plan">Corporate</div>
+          <div class="precio-para">Administradoras con 3+ conjuntos</div>
+          <div class="precio-divider"></div>
+          <div class="precio-anual">Desde<br>$16.020.000</div>
+          <div class="precio-mensual">$1.335.000 / mes · COP</div>
+          <div class="precio-apto">Multi-conjunto</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8: ROI
+     ============================================================ -->
+<section class="slide" id="slide-8" data-index="7">
+  <div class="slide-content">
+    <div class="roi-layout">
+      <div class="roi-left">
+        <p class="section-label blue reveal">El Retorno</p>
+        <div class="roi-big reveal delay-1">20h</div>
+        <p class="roi-label reveal delay-1">liberadas cada mes — horas de trabajo manual que desaparecen</p>
+
+        <div class="roi-equation">
+          <div class="roi-eq-row reveal delay-2">
+            <i class="bi bi-clock roi-eq-icon"></i>
+            <div class="roi-eq-text"><strong>20 horas / mes</strong> de trabajo manual automatizado</div>
+            <span class="roi-eq-op">×</span>
+          </div>
+          <div class="roi-eq-row reveal delay-3">
+            <i class="bi bi-currency-dollar roi-eq-icon"></i>
+            <div class="roi-eq-text"><strong>$25.000 COP / hora</strong> costo promedio del tiempo del admin</div>
+            <span class="roi-eq-op">=</span>
+          </div>
+        </div>
+
+        <div class="roi-result reveal delay-4">
+          <div class="result-label">Trabajo liberado cada mes</div>
+          <div class="result-value">$500.000 COP</div>
+          <div class="result-sub">PropieApp Pro cuesta $285.000 / mes</div>
+        </div>
+      </div>
+
+      <div class="roi-right reveal delay-3">
+        <p class="section-label blue" style="margin-bottom:clamp(0.75rem,2vh,1.5rem);">El software se paga solo</p>
+        <div style="display:flex;flex-direction:column;gap:clamp(0.5rem,1.5vh,1rem);">
+          <div class="roi-eq-row">
+            <i class="bi bi-emoji-frown roi-eq-icon" style="color:#ef4444;"></i>
+            <div class="roi-eq-text" style="color:rgba(240,242,255,0.5);">Sin PropieApp: <strong style="color:#f87171;">$500.000</strong> en trabajo manual mensual</div>
+          </div>
+          <div class="roi-eq-row" style="border-color:rgba(34,197,94,0.25);">
+            <i class="bi bi-emoji-smile roi-eq-icon" style="color:#22c55e;"></i>
+            <div class="roi-eq-text">Con PropieApp Pro: <strong style="color:#4ade80;">$285.000 / mes</strong></div>
+          </div>
+          <div class="roi-eq-row" style="border-color:rgba(34,197,94,0.25);background:rgba(34,197,94,0.05);">
+            <i class="bi bi-graph-up-arrow roi-eq-icon" style="color:#22c55e;"></i>
+            <div class="roi-eq-text">Ahorro neto: <strong style="color:#4ade80;">$215.000 / mes</strong><br><span style="font-size:var(--small-size);color:rgba(240,242,255,0.4);">Más tiempo libre, menos errores, cero conflictos</span></div>
+          </div>
+          <div class="roi-eq-row" style="background:rgba(102,126,234,0.08);border-color:rgba(102,126,234,0.3);">
+            <i class="bi bi-calendar3 roi-eq-icon"></i>
+            <div class="roi-eq-text"><strong>Primer semana del mes</strong> — el software ya se pagó solo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9: PROGRAMA PILOTO
+     ============================================================ -->
+<section class="slide" id="slide-9" data-index="8">
+  <div class="slide-content">
+    <div class="piloto-layout">
+      <div>
+        <div class="piloto-header">
+          <p class="section-label reveal">Oferta de Lanzamiento</p>
+          <h2 class="slide-title reveal delay-1">Programa Piloto</h2>
+          <div class="piloto-counter reveal delay-2"><i class="bi bi-stopwatch"></i> Solo para los primeros 10 conjuntos</div>
+        </div>
+        <div class="beneficios-list" style="margin-top:clamp(0.75rem,2vh,1.5rem);">
+          <div class="beneficio-row reveal delay-2">
+            <div class="beneficio-icon"><i class="bi bi-tag-fill"></i></div>
+            <div class="beneficio-body">
+              <div class="beneficio-title">Plan Pro al precio Starter</div>
+              <div class="beneficio-sub">$285.000/mes por solo $135.000 — durante 6 meses</div>
+            </div>
+          </div>
+          <div class="beneficio-row reveal delay-3">
+            <div class="beneficio-icon"><i class="bi bi-person-workspace"></i></div>
+            <div class="beneficio-body">
+              <div class="beneficio-title">Onboarding guiado (2 horas)</div>
+              <div class="beneficio-sub">Sesión personalizada para configurar su conjunto</div>
+            </div>
+          </div>
+          <div class="beneficio-row reveal delay-4">
+            <div class="beneficio-icon"><i class="bi bi-file-earmark-arrow-up"></i></div>
+            <div class="beneficio-body">
+              <div class="beneficio-title">Migración de datos incluida</div>
+              <div class="beneficio-sub">Pasamos su Excel a PropieApp sin costo adicional</div>
+            </div>
+          </div>
+          <div class="beneficio-row reveal delay-5">
+            <div class="beneficio-icon"><i class="bi bi-whatsapp"></i></div>
+            <div class="beneficio-body">
+              <div class="beneficio-title">Soporte directo por WhatsApp</div>
+              <div class="beneficio-sub">Línea directa con el equipo técnico durante el piloto</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal delay-3">
+        <div class="condiciones-box">
+          <div class="condiciones-title"><i class="bi bi-clipboard-check"></i> Condiciones del piloto</div>
+          <div class="condicion-item"><i class="bi bi-check-circle-fill"></i>Compromiso mínimo 6 meses</div>
+          <div class="condicion-item"><i class="bi bi-check-circle-fill"></i>Entre 30 y 150 apartamentos</div>
+          <div class="condicion-item"><i class="bi bi-check-circle-fill"></i>Bogotá, Medellín o Cali</div>
+          <div class="condicion-item"><i class="bi bi-check-circle-fill"></i>Sin contrato vigente con otro software de gestión</div>
+          <div class="condicion-item"><i class="bi bi-check-circle-fill"></i>A cambio: testimonio en video + 3 referidos</div>
+          <div class="condiciones-nota">
+            <strong>Implementación en menos de 48 horas.</strong><br>
+            Mañana: llamada de diagnóstico y cuenta configurada.<br>
+            Tarde: carga de residentes y zonas.<br>
+            Día 2: capacitación y prueba con 5 residentes.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10: CTA / CONTACTO
+     ============================================================ -->
+<section class="slide" id="slide-10" data-index="9">
+  <div class="slide-content" style="align-items:center;">
+    <div class="cta-inner">
+      <div class="cta-logo reveal">
+        <i class="bi bi-buildings-fill"></i>
+      </div>
+      <h2 class="cta-title reveal delay-1">¿Listo para tomar el control<br>de su conjunto?</h2>
+      <p class="cta-subtitle reveal delay-2">Solicite una demostración en vivo de 30 minutos.<br>Sin compromiso. Con datos de un conjunto real.</p>
+      <div class="cta-contacts reveal delay-3">
+        <a href="https://wa.me/573204550849" class="cta-contact wa">
+          <i class="bi bi-whatsapp"></i> 320 455 0849
+        </a>
+        <a href="mailto:rhernandez@solucionpc.co" class="cta-contact mail">
+          <i class="bi bi-envelope-fill"></i> rhernandez@solucionpc.co
+        </a>
+        <a href="https://propieapp.com" class="cta-contact web">
+          <i class="bi bi-globe2"></i> propieapp.com
+        </a>
+      </div>
+      <p class="cta-tagline reveal delay-4">Respuesta garantizada en menos de 2 horas en días hábiles</p>
+      <p class="cta-tagline reveal delay-5" style="margin-top:clamp(0.5rem,1.5vh,1rem);font-size:var(--small-size);color:rgba(255,255,255,0.15);">
+        PropieApp · Solución PC S.A.S · NIT 900.957.301-4 · Bogotá, Colombia · 2026
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+/* === NAVIGATION & SCROLL === */
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.nav-dot');
+const counter = document.getElementById('current-slide');
+let currentIndex = 0;
+let isScrolling = false;
+
+function goTo(index) {
+    if (index < 0 || index >= slides.length) return;
+    currentIndex = index;
+    slides[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    updateDots();
+    counter.textContent = index + 1;
+}
+
+function updateDots() {
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+}
+
+// Dot click navigation
+dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goTo(i));
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        goTo(currentIndex + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goTo(currentIndex - 1);
+    } else if (e.key === 'Escape') {
+        goTo(0);
+    }
+});
+
+// Scroll detection to update dot state
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+            const idx = parseInt(entry.target.dataset.index);
+            currentIndex = idx;
+            updateDots();
+            counter.textContent = idx + 1;
+        }
+    });
+}, { threshold: 0.6 });
+
+slides.forEach(slide => observer.observe(slide));
+
+/* === REVEAL ANIMATIONS ON SCROLL === */
+const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // Trigger all reveal elements in the visible slide
+            const revealEls = entry.target.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+            revealEls.forEach(el => el.classList.add('visible'));
+        }
+    });
+}, { threshold: 0.25 });
+
+slides.forEach(slide => revealObserver.observe(slide));
+
+// Immediately trigger first slide
+setTimeout(() => {
+    slides[0].querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => el.classList.add('visible'));
+}, 100);
+
+/* === TOUCH SWIPE === */
+let touchStartY = 0;
+document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+document.addEventListener('touchend', e => {
+    const diff = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(diff) > 50) goTo(diff > 0 ? currentIndex + 1 : currentIndex - 1);
+}, { passive: true });
+</script>
+</body>
+</html>
