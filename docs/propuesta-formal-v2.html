@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IQI S.A.S — Propuesta Encuesta Socioeconómica y de Bienestar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* =============================================
+   VIEWPORT BASE
+   ============================================= */
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+*, *::before, *::after { box-sizing: border-box; }
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* =============================================
+   DESIGN TOKENS
+   ============================================= */
+:root {
+    --navy:      #1B3A7A;
+    --blue:      #2E5BA8;
+    --accent:    #4A7FD4;
+    --light:     #E8EDF5;
+    --white:     #FFFFFF;
+    --gray-50:   #F8FAFC;
+    --gray-100:  #F1F5F9;
+    --gray-200:  #E2E8F0;
+    --gray-500:  #64748B;
+    --gray-700:  #334155;
+    --gray-900:  #0F172A;
+    --green:     #16A34A;
+    --amber:     #D97706;
+    --red:       #DC2626;
+
+    --title-size: clamp(2.4rem, 6vw, 5.5rem);
+    --h2-size:    clamp(1.8rem, 3.5vw, 3.0rem);
+    --h3-size:    clamp(1.4rem, 2.5vw, 2.0rem);
+    --body-size:  clamp(1.1rem, 1.8vw, 1.5rem);
+    --small-size: clamp(0.95rem, 1.45vw, 1.2rem);
+    --pad:        clamp(1.5rem, 4vw, 4rem);
+
+    --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.07);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08);
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: var(--navy);
+    color: var(--gray-900);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.1ms !important;
+    }
+}
+
+/* =============================================
+   SHARED ANIMATIONS
+   ============================================= */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes slideRight {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* =============================================
+   SHARED COMPONENTS
+   ============================================= */
+.slide-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(1rem, 2.5vh, 1.8rem) var(--pad);
+    border-bottom: 1px solid var(--gray-200);
+    flex-shrink: 0;
+}
+.sh-logo {
+    height: clamp(32px, 5vh, 52px);
+    width: auto;
+    object-fit: contain;
+}
+.sh-meta {
+    font-size: var(--small-size);
+    color: var(--gray-500);
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+.slide-body {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1rem, 3vh, 2.5rem) var(--pad);
+    gap: clamp(0.6rem, 1.5vh, 1.5rem);
+}
+.section-label {
+    font-size: var(--small-size);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+.slide-title {
+    font-size: var(--h2-size);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+    margin: 0;
+}
+.slide-footer {
+    padding: clamp(0.6rem, 1.5vh, 1.2rem) var(--pad);
+    border-top: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+.sf-contact {
+    font-size: var(--small-size);
+    color: var(--gray-500);
+}
+.sf-nav {
+    font-size: var(--small-size);
+    color: var(--gray-500);
+    font-variant-numeric: tabular-nums;
+}
+
+/* =============================================
+   NAV DOTS
+   ============================================= */
+.nav-dots {
+    position: fixed;
+    right: clamp(12px, 2vw, 24px);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 100;
+}
+.nav-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(27,58,122,0.18);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: none;
+    padding: 0;
+}
+.nav-dot.active {
+    background: var(--navy);
+    transform: scale(1.4);
+}
+.nav-dot:hover { background: var(--accent); }
+
+/* =============================================
+   SLIDE 1 — PORTADA CORPORATIVA
+   ============================================= */
+#slide-1 {
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+}
+#slide-1::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+}
+#slide-1::after {
+    content: '';
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,127,212,0.12) 0%, transparent 70%);
+    top: -10vw;
+    right: -10vw;
+    pointer-events: none;
+}
+.s1-layout {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--pad);
+    justify-content: space-between;
+}
+.s1-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.1s forwards;
+}
+.s1-logo-box {
+    background: rgba(255,255,255,0.95);
+    border-radius: 10px;
+    padding: clamp(6px, 1.2vh, 12px) clamp(12px, 2vw, 22px);
+    display: inline-flex;
+    align-items: center;
+}
+.s1-logo { height: clamp(44px, 8vh, 88px); width: auto; object-fit: contain; }
+.s1-badge {
+    font-size: var(--small-size);
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+}
+
+.s1-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(0.8rem, 2vh, 1.8rem);
+    max-width: 720px;
+}
+.s1-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--small-size);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) 0.25s forwards;
+}
+.s1-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+    flex-shrink: 0;
+}
+.s1-title {
+    font-size: var(--title-size);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 0;
+    opacity: 0;
+    animation: fadeUp 0.7s var(--ease-expo) 0.38s forwards;
+}
+.s1-title em {
+    font-style: normal;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+}
+.s1-subtitle {
+    font-size: var(--h3-size);
+    font-weight: 400;
+    color: rgba(255,255,255,0.65);
+    margin: 0;
+    line-height: 1.4;
+    opacity: 0;
+    animation: fadeUp 0.7s var(--ease-expo) 0.5s forwards;
+}
+.s1-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(6px, 1vw, 10px);
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) 0.65s forwards;
+}
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--small-size);
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 999px;
+    padding: clamp(4px, 0.7vh, 7px) clamp(10px, 1.5vw, 16px);
+}
+.pill-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+}
+
+.s1-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.8s forwards;
+}
+.s1-company {
+    font-size: var(--small-size);
+    color: rgba(255,255,255,0.4);
+    line-height: 1.6;
+}
+.s1-company strong { color: rgba(255,255,255,0.7); }
+.s1-year {
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: 800;
+    color: rgba(255,255,255,0.06);
+    letter-spacing: -0.05em;
+    line-height: 1;
+}
+
+/* =============================================
+   SLIDE 2 — CONTEXTO Y DESAFÍO
+   ============================================= */
+#slide-2 { background: var(--white); }
+
+.s2-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    flex: 1;
+    overflow: hidden;
+}
+.s2-left {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.7rem, 1.5vh, 1.4rem);
+    overflow: hidden;
+}
+.context-block {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: clamp(0.8rem, 1.5vh, 1.4rem) clamp(1rem, 2vw, 1.6rem);
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) calc(0.1s + var(--d, 0s)) forwards;
+}
+.context-block h3 {
+    font-size: var(--body-size);
+    font-weight: 600;
+    color: var(--navy);
+    margin: 0 0 0.5em;
+}
+.context-block p, .context-block ul {
+    font-size: var(--small-size);
+    color: var(--gray-700);
+    margin: 0;
+    line-height: 1.55;
+}
+.context-block ul { padding-left: 1.2em; }
+.context-block li { margin-bottom: 0.25em; }
+
+.s2-right {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.7rem, 1.5vh, 1.2rem);
+    overflow: hidden;
+}
+.stat-card {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: clamp(0.8rem, 1.5vh, 1.4rem) clamp(1rem, 2vw, 1.6rem);
+    color: white;
+    opacity: 0;
+    animation: slideRight 0.6s var(--ease-expo) calc(0.2s + var(--d, 0s)) forwards;
+}
+.stat-card.light {
+    background: var(--light);
+    color: var(--navy);
+}
+.stat-num {
+    font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--white);
+}
+.stat-card.light .stat-num { color: var(--navy); }
+.stat-label {
+    font-size: var(--small-size);
+    opacity: 0.75;
+    margin-top: 4px;
+    line-height: 1.35;
+}
+.stat-source {
+    font-size: calc(var(--small-size) * 0.85);
+    opacity: 0.45;
+    margin-top: 2px;
+}
+
+/* =============================================
+   SLIDE 3 — METODOLOGÍA MAXDIFF
+   ============================================= */
+#slide-3 { background: var(--gray-50); }
+
+.maxdiff-intro {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    flex: 1;
+    overflow: hidden;
+}
+.maxdiff-left {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.6rem, 1.2vh, 1.2rem);
+    overflow: hidden;
+}
+.maxdiff-desc {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: clamp(1rem, 2vh, 1.8rem) clamp(1.2rem, 2.5vw, 2rem);
+    color: white;
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) 0.1s forwards;
+}
+.maxdiff-desc p {
+    font-size: var(--body-size);
+    line-height: 1.55;
+    color: rgba(255,255,255,0.85);
+    margin: 0;
+}
+.maxdiff-desc strong { color: white; }
+
+.compare-table {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    overflow: hidden;
+    flex: 1;
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) 0.2s forwards;
+}
+.ct-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: var(--navy);
+    padding: clamp(0.5rem, 1vh, 0.9rem) clamp(0.8rem, 1.5vw, 1.2rem);
+}
+.ct-header span {
+    font-size: var(--small-size);
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+}
+.ct-header span:first-child { text-align: left; }
+.ct-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: clamp(0.4rem, 0.8vh, 0.7rem) clamp(0.8rem, 1.5vw, 1.2rem);
+    border-top: 1px solid var(--gray-100);
+    align-items: center;
+}
+.ct-row span {
+    font-size: var(--small-size);
+    color: var(--gray-700);
+    text-align: center;
+    line-height: 1.35;
+}
+.ct-row span:first-child { text-align: left; color: var(--gray-900); font-weight: 500; }
+.badge-good {
+    display: inline-block;
+    background: #DCFCE7;
+    color: var(--green);
+    font-weight: 600;
+    font-size: calc(var(--small-size) * 0.9);
+    border-radius: 4px;
+    padding: 2px 8px;
+}
+.badge-bad {
+    display: inline-block;
+    background: #FEF2F2;
+    color: var(--red);
+    font-weight: 600;
+    font-size: calc(var(--small-size) * 0.9);
+    border-radius: 4px;
+    padding: 2px 8px;
+}
+.badge-neutral {
+    display: inline-block;
+    background: var(--gray-100);
+    color: var(--gray-500);
+    font-weight: 600;
+    font-size: calc(var(--small-size) * 0.9);
+    border-radius: 4px;
+    padding: 2px 8px;
+}
+
+.maxdiff-right {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.6rem, 1.2vh, 1.2rem);
+    overflow: hidden;
+}
+.param-card {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: clamp(0.7rem, 1.4vh, 1.3rem) clamp(0.9rem, 1.8vw, 1.5rem);
+    display: flex;
+    align-items: center;
+    gap: clamp(0.6rem, 1.2vw, 1.2rem);
+    opacity: 0;
+    animation: slideRight 0.6s var(--ease-expo) calc(0.15s + var(--d, 0s)) forwards;
+}
+.param-icon {
+    width: clamp(36px, 4.5vw, 52px);
+    height: clamp(36px, 4.5vw, 52px);
+    border-radius: 10px;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: clamp(1rem, 1.8vw, 1.5rem);
+}
+.param-text { flex: 1; }
+.param-value {
+    font-size: var(--h3-size);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+}
+.param-desc {
+    font-size: var(--small-size);
+    color: var(--gray-500);
+    margin-top: 2px;
+    line-height: 1.3;
+}
+
+/* =============================================
+   SLIDE 4 — DISEÑO DEL FORMULARIO
+   ============================================= */
+#slide-4 { background: var(--white); }
+
+.items-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    flex: 1;
+    overflow: hidden;
+}
+.items-left {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.5rem, 1vh, 1rem);
+    overflow: hidden;
+}
+.items-intro {
+    font-size: var(--small-size);
+    color: var(--gray-700);
+    line-height: 1.5;
+    background: var(--gray-50);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: clamp(0.6rem, 1.2vh, 1rem) clamp(0.8rem, 1.5vw, 1.2rem);
+    opacity: 0;
+    animation: fadeUp 0.5s var(--ease-expo) 0.1s forwards;
+}
+.items-intro strong { color: var(--navy); }
+
+.items-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(4px, 0.8vh, 8px);
+    overflow: hidden;
+    flex: 1;
+}
+.item-chip {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 0.8vw, 10px);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: clamp(5px, 0.9vh, 9px) clamp(8px, 1.2vw, 12px);
+    opacity: 0;
+    animation: fadeUp 0.5s var(--ease-expo) calc(0.15s + var(--d, 0s)) forwards;
+}
+.item-num {
+    width: clamp(18px, 2vw, 24px);
+    height: clamp(18px, 2vw, 24px);
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    font-size: calc(var(--small-size) * 0.8);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.item-text {
+    font-size: calc(var(--small-size) * 0.92);
+    color: var(--gray-700);
+    line-height: 1.3;
+}
+
+.items-right {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.6rem, 1.2vh, 1.2rem);
+    overflow: hidden;
+}
+.seg-card {
+    border-radius: 12px;
+    padding: clamp(0.7rem, 1.4vh, 1.3rem) clamp(0.9rem, 1.8vw, 1.5rem);
+    flex: 1;
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) calc(0.2s + var(--d, 0s)) forwards;
+}
+.seg-card.civil { background: #EFF6FF; border: 1px solid #BFDBFE; }
+.seg-card.region { background: #F0FDF4; border: 1px solid #BBF7D0; }
+.seg-card.strato { background: #FFF7ED; border: 1px solid #FED7AA; }
+
+.seg-title {
+    font-size: var(--small-size);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+}
+.seg-card.civil .seg-title  { color: #1D4ED8; }
+.seg-card.region .seg-title { color: #15803D; }
+.seg-card.strato .seg-title { color: #C2410C; }
+
+.seg-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.seg-items li {
+    font-size: calc(var(--small-size) * 0.92);
+    color: var(--gray-700);
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    line-height: 1.35;
+}
+.seg-items li::before {
+    content: '→';
+    font-size: 0.75em;
+    opacity: 0.5;
+    flex-shrink: 0;
+}
+
+/* =============================================
+   SLIDE 5 — METODOLOGÍA WHATSAPP
+   ============================================= */
+#slide-5 { background: var(--gray-50); }
+
+.method-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    flex: 1;
+    overflow: hidden;
+}
+.method-left {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.5rem, 1vh, 1rem);
+    overflow: hidden;
+}
+.advantage-row {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(0.6rem, 1.2vw, 1rem);
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: clamp(0.6rem, 1.2vh, 1rem) clamp(0.8rem, 1.5vw, 1.2rem);
+    opacity: 0;
+    animation: fadeUp 0.5s var(--ease-expo) calc(0.1s + var(--d, 0s)) forwards;
+}
+.adv-icon {
+    font-size: clamp(1rem, 1.8vw, 1.4rem);
+    width: clamp(32px, 3.5vw, 44px);
+    height: clamp(32px, 3.5vw, 44px);
+    border-radius: 8px;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.adv-content { flex: 1; }
+.adv-title {
+    font-size: var(--small-size);
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 3px;
+}
+.adv-desc {
+    font-size: calc(var(--small-size) * 0.9);
+    color: var(--gray-500);
+    line-height: 1.4;
+}
+.adv-metric {
+    font-size: var(--small-size);
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+    align-self: center;
+}
+
+.method-right {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.4rem, 0.9vh, 0.8rem);
+    overflow: hidden;
+}
+.escalation-title {
+    font-size: var(--small-size);
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeIn 0.5s ease 0.1s forwards;
+}
+.escalation-step {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.6rem, 1.2vw, 1rem);
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: clamp(0.6rem, 1.2vh, 1rem) clamp(0.8rem, 1.5vw, 1.2rem);
+    opacity: 0;
+    animation: slideRight 0.55s var(--ease-expo) calc(0.15s + var(--d, 0s)) forwards;
+}
+.esc-step-num {
+    width: clamp(26px, 3vw, 36px);
+    height: clamp(26px, 3vw, 36px);
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    font-weight: 700;
+    font-size: var(--small-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.esc-content { flex: 1; }
+.esc-title {
+    font-size: var(--small-size);
+    font-weight: 600;
+    color: var(--gray-900);
+    line-height: 1;
+}
+.esc-desc {
+    font-size: calc(var(--small-size) * 0.88);
+    color: var(--gray-500);
+    margin-top: 2px;
+}
+.esc-rate {
+    font-size: var(--small-size);
+    font-weight: 700;
+    color: var(--green);
+    white-space: nowrap;
+}
+
+/* =============================================
+   SLIDE 6 — PLAN DE TRABAJO
+   ============================================= */
+#slide-6 { background: var(--white); }
+
+.plan-layout {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.6rem, 1.2vh, 1.2rem);
+    flex: 1;
+    overflow: hidden;
+}
+.plan-phases {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(0.4rem, 0.8vw, 0.8rem);
+    flex: 1;
+    overflow: hidden;
+}
+.phase-card {
+    border-radius: 12px;
+    padding: clamp(0.8rem, 1.5vh, 1.4rem) clamp(0.8rem, 1.5vw, 1.4rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.4rem, 0.8vh, 0.8rem);
+    border: 1px solid var(--gray-200);
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) calc(0.1s + var(--d, 0s)) forwards;
+    overflow: hidden;
+}
+.phase-card:nth-child(1) { background: #EFF6FF; border-color: #BFDBFE; }
+.phase-card:nth-child(2) { background: #F0FDF4; border-color: #BBF7D0; }
+.phase-card:nth-child(3) { background: #FEF3C7; border-color: #FDE68A; }
+.phase-card:nth-child(4) { background: #FFF1F2; border-color: #FECDD3; }
+.phase-card:nth-child(5) { background: #FAF5FF; border-color: #E9D5FF; }
+
+.phase-num {
+    font-size: clamp(1.6rem, 3vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1;
+    opacity: 0.15;
+}
+.phase-card:nth-child(1) .phase-num { color: #1D4ED8; }
+.phase-card:nth-child(2) .phase-num { color: #15803D; }
+.phase-card:nth-child(3) .phase-num { color: #92400E; }
+.phase-card:nth-child(4) .phase-num { color: #9F1239; }
+.phase-card:nth-child(5) .phase-num { color: #6B21A8; }
+
+.phase-name {
+    font-size: var(--small-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+.phase-card:nth-child(1) .phase-name { color: #1D4ED8; }
+.phase-card:nth-child(2) .phase-name { color: #15803D; }
+.phase-card:nth-child(3) .phase-name { color: #92400E; }
+.phase-card:nth-child(4) .phase-name { color: #9F1239; }
+.phase-card:nth-child(5) .phase-name { color: #6B21A8; }
+
+.phase-dur {
+    font-size: calc(var(--small-size) * 0.9);
+    color: var(--gray-500);
+    font-weight: 500;
+}
+.phase-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.phase-items li {
+    font-size: calc(var(--small-size) * 0.9);
+    color: var(--gray-700);
+    display: flex;
+    gap: 5px;
+    line-height: 1.35;
+}
+.phase-items li::before {
+    content: '·';
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.plan-note {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: clamp(0.5rem, 1vh, 0.8rem) clamp(0.8rem, 1.5vw, 1.2rem);
+    font-size: calc(var(--small-size) * 0.92);
+    color: var(--gray-500);
+    flex-shrink: 0;
+    opacity: 0;
+    animation: fadeIn 0.5s ease 0.6s forwards;
+}
+.plan-note strong { color: var(--gray-700); }
+
+/* =============================================
+   SLIDE 7 — ENTREGABLES
+   ============================================= */
+#slide-7 { background: var(--gray-50); }
+
+.deliverables-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    flex: 1;
+    overflow: hidden;
+}
+.deliv-left, .deliv-right {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.5rem, 1vh, 1rem);
+    overflow: hidden;
+}
+.deliv-item {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: clamp(0.7rem, 1.4vh, 1.2rem) clamp(0.9rem, 1.8vw, 1.4rem);
+    display: flex;
+    gap: clamp(0.7rem, 1.2vw, 1rem);
+    align-items: flex-start;
+    opacity: 0;
+    animation: fadeUp 0.55s var(--ease-expo) calc(0.1s + var(--d, 0s)) forwards;
+}
+.deliv-icon {
+    width: clamp(32px, 3.5vw, 44px);
+    height: clamp(32px, 3.5vw, 44px);
+    border-radius: 8px;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    flex-shrink: 0;
+}
+.deliv-content { flex: 1; }
+.deliv-title {
+    font-size: var(--small-size);
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 3px;
+    line-height: 1.25;
+}
+.deliv-desc {
+    font-size: calc(var(--small-size) * 0.9);
+    color: var(--gray-500);
+    line-height: 1.4;
+}
+
+.compliance-box {
+    background: var(--navy);
+    border-radius: 10px;
+    padding: clamp(0.7rem, 1.4vh, 1.2rem) clamp(0.9rem, 1.8vw, 1.4rem);
+    color: white;
+    flex: 1;
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) 0.55s forwards;
+}
+.compliance-box h3 {
+    font-size: var(--small-size);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin: 0 0 0.8em;
+}
+.compliance-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(5px, 0.8vh, 8px);
+}
+.compliance-list li {
+    font-size: calc(var(--small-size) * 0.95);
+    color: rgba(255,255,255,0.8);
+    display: flex;
+    gap: 8px;
+    line-height: 1.4;
+}
+.compliance-list li::before {
+    content: '✓';
+    color: #4ADE80;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* =============================================
+   SLIDE 8 — INVERSIÓN Y PRÓXIMOS PASOS
+   ============================================= */
+#slide-8 { background: var(--white); }
+
+.invest-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    flex: 1;
+    overflow: hidden;
+}
+.invest-left {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.6rem, 1.2vh, 1.2rem);
+    overflow: hidden;
+}
+.price-card {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: clamp(1.2rem, 2.5vh, 2.2rem) clamp(1.5rem, 3vw, 2.5rem);
+    color: white;
+    opacity: 0;
+    animation: fadeUp 0.7s var(--ease-expo) 0.1s forwards;
+}
+.price-label {
+    font-size: var(--small-size);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: clamp(0.3rem, 0.8vh, 0.7rem);
+}
+.price-original {
+    font-size: var(--body-size);
+    color: rgba(255,255,255,0.35);
+    text-decoration: line-through;
+    margin-bottom: 2px;
+}
+.price-main {
+    font-size: clamp(2.2rem, 5vw, 4.8rem);
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+.price-sub { font-size: var(--small-size); color: rgba(255,255,255,0.5); margin-top: 4px; }
+.price-discount-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(74,222,128,0.2);
+    border: 1px solid rgba(74,222,128,0.35);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: var(--small-size);
+    font-weight: 600;
+    color: #4ADE80;
+    margin-top: clamp(0.5rem, 1.2vh, 1rem);
+}
+
+.includes-box {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: clamp(0.8rem, 1.5vh, 1.4rem) clamp(1rem, 2vw, 1.6rem);
+    flex: 1;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) 0.25s forwards;
+}
+.includes-box h3 {
+    font-size: var(--small-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--navy);
+    margin: 0 0 0.7em;
+}
+.includes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4px, 0.7vh, 7px);
+}
+.includes-list li {
+    font-size: calc(var(--small-size) * 0.95);
+    color: var(--gray-700);
+    display: flex;
+    gap: 8px;
+    line-height: 1.4;
+}
+.includes-list li::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.invest-right {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.6rem, 1.2vh, 1.2rem);
+    overflow: hidden;
+}
+.next-title {
+    font-size: var(--small-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--navy);
+    opacity: 0;
+    animation: fadeIn 0.5s ease 0.2s forwards;
+}
+.next-step {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: clamp(0.6rem, 1.2vh, 1.1rem) clamp(0.8rem, 1.5vw, 1.2rem);
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(0.6rem, 1vw, 1rem);
+    opacity: 0;
+    animation: slideRight 0.55s var(--ease-expo) calc(0.25s + var(--d, 0s)) forwards;
+}
+.ns-num {
+    width: clamp(26px, 3vw, 34px);
+    height: clamp(26px, 3vw, 34px);
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: var(--small-size);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.ns-content { flex: 1; }
+.ns-title {
+    font-size: var(--small-size);
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 2px;
+}
+.ns-desc {
+    font-size: calc(var(--small-size) * 0.88);
+    color: var(--gray-500);
+    line-height: 1.35;
+}
+
+.contact-card {
+    background: var(--navy);
+    border-radius: 10px;
+    padding: clamp(0.7rem, 1.4vh, 1.2rem) clamp(0.9rem, 1.8vw, 1.4rem);
+    color: white;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(0.4rem, 0.8vh, 0.7rem);
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) 0.7s forwards;
+}
+.contact-name {
+    font-size: var(--body-size);
+    font-weight: 700;
+    color: white;
+}
+.contact-role {
+    font-size: var(--small-size);
+    color: rgba(255,255,255,0.5);
+}
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 4px;
+}
+.contact-line {
+    font-size: var(--small-size);
+    color: rgba(255,255,255,0.7);
+}
+.validity-note {
+    font-size: calc(var(--small-size) * 0.85);
+    color: rgba(255,255,255,0.35);
+    margin-top: 4px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 8px;
+}
+
+/* =============================================
+   KEYBOARD HINT
+   ============================================= */
+.key-hint {
+    position: fixed;
+    bottom: clamp(12px, 2vh, 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: calc(var(--small-size) * 0.85);
+    color: rgba(100,116,139,0.4);
+    pointer-events: none;
+    z-index: 50;
+}
+
+/* =============================================
+   MAXDIFF WHATSAPP MOCKUP
+   ============================================= */
+.wa-mockup {
+    background: #ECE5DD;
+    border-radius: 12px;
+    padding: clamp(0.5rem, 1vh, 0.8rem) clamp(0.6rem, 1vw, 0.9rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4px, 0.7vh, 7px);
+    flex: 1;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.6s var(--ease-expo) 0.55s forwards;
+    position: relative;
+}
+.wa-mockup-label {
+    font-size: calc(var(--small-size) * 1.0);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(27,58,122,0.5);
+    text-align: center;
+    margin-bottom: 2px;
+}
+.wa-bubble {
+    max-width: 100%;
+    border-radius: 10px;
+    padding: clamp(4px, 0.8vh, 7px) clamp(7px, 1.1vw, 10px);
+    font-size: calc(var(--small-size) * 0.78);
+    line-height: 1.35;
+    position: relative;
+}
+.wa-bubble.bot {
+    background: white;
+    align-self: flex-start;
+    border-radius: 0 12px 12px 12px;
+    color: var(--gray-900);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.wa-bubble.user {
+    background: #DCF8C6;
+    align-self: flex-end;
+    border-radius: 12px 12px 0 12px;
+    color: var(--gray-900);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.wa-bubble strong { color: var(--navy); }
+.wa-bubble .wa-options {
+    list-style: none;
+    margin: 5px 0 0;
+    padding: 0;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.wa-bubble .wa-options li {
+    font-size: calc(var(--small-size) * 0.75);
+    color: var(--gray-700);
+    display: flex;
+    gap: 4px;
+}
+.wa-bubble .wa-options li span.opt-num {
+    font-weight: 700;
+    color: var(--navy);
+    flex-shrink: 0;
+}
+.wa-time {
+    font-size: calc(var(--small-size) * 0.62);
+    color: rgba(0,0,0,0.35);
+    text-align: right;
+    margin-top: 2px;
+}
+.wa-badge {
+    background: #25D366;
+    color: white;
+    font-size: calc(var(--small-size) * 0.72);
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 1px 7px;
+    display: inline-block;
+    margin-bottom: 2px;
+}
+.wa-user-label {
+    font-size: calc(var(--small-size) * 0.72);
+    font-weight: 700;
+    border-radius: 4px;
+    padding: 1px 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.wa-user-label.mejor { background: #FEF9C3; color: #854D0E; }
+.wa-user-label.peor  { background: #FEE2E2; color: #991B1B; }
+.wa-dual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(6px, 1vw, 10px);
+    flex: 1;
+    overflow: hidden;
+}
+.wa-col {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4px, 0.7vh, 7px);
+    overflow: hidden;
+}
+.wa-col-label {
+    font-size: calc(var(--small-size) * 0.9);
+    font-weight: 700;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px 0;
+    flex-shrink: 0;
+}
+.wa-col-label.mejor-label { background: #FEF9C3; color: #854D0E; }
+.wa-col-label.peor-label  { background: #FEE2E2; color: #991B1B; }
+
+@media (max-height: 650px) {
+    :root {
+        --pad: clamp(0.8rem, 2.5vw, 2rem);
+        --body-size: clamp(0.85rem, 1.3vw, 1.05rem);
+        --small-size: clamp(0.72rem, 1.0vw, 0.88rem);
+    }
+    .nav-dots, .key-hint { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV DOTS -->
+<nav class="nav-dots" aria-label="Navegación">
+  <button class="nav-dot active" data-slide="0" title="Portada"></button>
+  <button class="nav-dot" data-slide="1" title="Contexto"></button>
+  <button class="nav-dot" data-slide="2" title="Metodología MaxDiff"></button>
+  <button class="nav-dot" data-slide="3" title="Formulario"></button>
+  <button class="nav-dot" data-slide="4" title="Metodología WhatsApp"></button>
+  <button class="nav-dot" data-slide="5" title="Plan de Trabajo"></button>
+  <button class="nav-dot" data-slide="6" title="Entregables"></button>
+  <button class="nav-dot" data-slide="7" title="Inversión"></button>
+</nav>
+<p class="key-hint">↑ ↓ para navegar</p>
+
+<!-- ============================================================
+     SLIDE 1 — PORTADA
+     ============================================================ -->
+<section class="slide" id="slide-1" aria-label="Portada">
+  <div class="s1-layout">
+    <div class="s1-top">
+      <div class="s1-logo-box">
+        <img class="s1-logo" src="../brand/Logo.jpeg" alt="IQI S.A.S">
+      </div>
+      <span class="s1-badge">PROPUESTA COMERCIAL · 2026</span>
+    </div>
+
+    <div class="s1-center">
+      <div class="s1-eyebrow">Encuesta Socioeconómica y de Bienestar</div>
+      <h1 class="s1-title">Conocimiento<br><em>que transforma</em><br>decisiones.</h1>
+      <p class="s1-subtitle">Diagnóstico socioeconómico para 6.000 colaboradores<br>mediante metodología WhatsApp Business + MaxDiff</p>
+      <div class="s1-pills">
+        <span class="pill"><span class="pill-dot"></span>6.000 colaboradores</span>
+        <span class="pill"><span class="pill-dot"></span>Segmentación MaxDiff</span>
+        <span class="pill"><span class="pill-dot"></span>Ley 1581 — Habeas Data</span>
+        <span class="pill"><span class="pill-dot"></span>Tasa de respuesta estimada: 20%</span>
+      </div>
+    </div>
+
+    <div class="s1-bottom">
+      <div class="s1-company">
+        <strong>IQI S.A.S.</strong><br>
+        NIT 901.141.193-6 · Bogotá, Colombia<br>
+        iqisas@outlook.com · 314 445 3746
+      </div>
+      <div class="s1-year">2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — CONTEXTO Y DESAFÍO
+     ============================================================ -->
+<section class="slide" id="slide-2" aria-label="Contexto y Desafío">
+  <header class="slide-header">
+    <img class="sh-logo" src="../brand/Logo.jpeg" alt="IQI">
+    <span class="sh-meta">02 / 08 · CONTEXTO Y DESAFÍO</span>
+  </header>
+
+  <div class="slide-body">
+    <div class="section-label">¿Por qué este estudio?</div>
+    <h2 class="slide-title">El bienestar del colaborador<br>es medible — y gestionable.</h2>
+
+    <div class="s2-content">
+      <div class="s2-left">
+        <div class="context-block" style="--d: 0s">
+          <h3>Brecha de información en RRHH</h3>
+          <p>Las organizaciones toman decisiones de bienestar basándose en supuestos. Sin datos segmentados por perfil demográfico, las inversiones en beneficios no llegan a quienes más las necesitan ni en la forma que mayor impacto genera.</p>
+        </div>
+        <div class="context-block" style="--d: 0.1s">
+          <h3>Diversidad de perfiles en su fuerza laboral</h3>
+          <ul>
+            <li>Diferencias por <strong>estado civil</strong>: solteros priorizan salud mental y desarrollo; personas con familia priorizan educación de hijos y estabilidad financiera.</li>
+            <li>Diferencias por <strong>región</strong>: Bogotá (estrés/movilidad) vs. Costa Caribe (empleo formal/salud) vs. Pacífico (vivienda/conectividad).</li>
+            <li>Diferencias por <strong>estrato</strong>: el estrato 1-2 destina hasta el 30% de ingresos en conectividad; el 5-6 prioriza experiencias y bienestar holístico.</li>
+          </ul>
+        </div>
+        <div class="context-block" style="--d: 0.2s">
+          <h3>Marco normativo</h3>
+          <p><strong>Ley 1581/2012 (Habeas Data)</strong> — Consentimiento expreso, aviso de privacidad y anonimización incluidos.</p>
+        </div>
+      </div>
+
+      <div class="s2-right">
+        <div class="stat-card" style="--d: 0s">
+          <div class="stat-num">5.7</div>
+          <div class="stat-label">Índice de bienestar de Colombia en el World Happiness Report 2024 — levemente sobre el promedio mundial (5.56), con el bienestar financiero como el componente más bajo.</div>
+          <div class="stat-source">Fuente: World Happiness Report 2024</div>
+        </div>
+        <div class="stat-card light" style="--d: 0.1s">
+          <div class="stat-num">6.8/10</div>
+          <div class="stat-label">Satisfacción subjetiva con el ingreso económico en Colombia — el indicador más bajo, por debajo de salud (7.9), tiempo libre (7.6) y trabajo (7.3).</div>
+          <div class="stat-source">Fuente: DANE — Encuesta de Calidad de Vida 2024</div>
+        </div>
+        <div class="stat-card" style="--d: 0.2s">
+          <div class="stat-num">66%</div>
+          <div class="stat-label">De colombianos declaró haber enfrentado al menos un problema de salud mental en 2023 — dato crítico para el diseño de beneficios orientados al bienestar emocional.</div>
+          <div class="stat-source">Fuente: MinSalud — Encuesta Nacional de Salud Mental 2023</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-contact">IQI S.A.S. · iqisas@outlook.com · 314 445 3746</span>
+    <span class="sf-nav">02 / 08</span>
+  </footer>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — METODOLOGÍA MAXDIFF
+     ============================================================ -->
+<section class="slide" id="slide-3" aria-label="Metodología MaxDiff">
+  <header class="slide-header">
+    <img class="sh-logo" src="../brand/Logo.jpeg" alt="IQI">
+    <span class="sh-meta">03 / 08 · METODOLOGÍA DE MEDICIÓN</span>
+  </header>
+
+  <div class="slide-body">
+    <div class="section-label">Diseño del instrumento</div>
+    <h2 class="slide-title">MaxDiff: preferencias reales,<br>no respuestas de cortesía.</h2>
+
+    <div class="maxdiff-intro">
+      <div class="maxdiff-left">
+        <div class="maxdiff-desc">
+          <p>El <strong>Maximum Difference Scaling (MaxDiff)</strong> obliga al colaborador a elegir, dentro de cada pantalla de 4 opciones, cuál mejoraría <em>más</em> y cuál <em>menos</em> su vida personal. Al forzar trade-offs reales, se elimina el sesgo de aquiescencia —el fenómeno por el que en escalas Likert todo queda marcado como "muy importante"— especialmente pronunciado en la cultura laboral latinoamericana.</p>
+        </div>
+        <div class="compare-table">
+          <div class="ct-header">
+            <span>Criterio</span>
+            <span>Escala Likert</span>
+            <span>MaxDiff</span>
+          </div>
+          <div class="ct-row">
+            <span>Discriminación entre ítems</span>
+            <span><span class="badge-bad">Baja</span></span>
+            <span><span class="badge-good">Alta</span></span>
+          </div>
+          <div class="ct-row">
+            <span>Sesgo cultural LATAM</span>
+            <span><span class="badge-bad">Alto</span></span>
+            <span><span class="badge-good">Eliminado</span></span>
+          </div>
+          <div class="ct-row">
+            <span>Segmentación por perfil</span>
+            <span><span class="badge-bad">Limitada</span></span>
+            <span><span class="badge-good">Excelente</span></span>
+          </div>
+          <div class="ct-row">
+            <span>Tiempo de respuesta</span>
+            <span><span class="badge-neutral">~5 min</span></span>
+            <span><span class="badge-neutral">~10 min</span></span>
+          </div>
+          <div class="ct-row">
+            <span>Validez científica</span>
+            <span><span class="badge-neutral">Estándar</span></span>
+            <span><span class="badge-good">526+ estudios</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="maxdiff-right">
+        <div class="param-card" style="--d: 0s">
+          <div class="param-icon">📋</div>
+          <div class="param-text">
+            <div class="param-value">18</div>
+            <div class="param-desc">ítems evaluados sobre medios para mejorar la vida personal</div>
+          </div>
+        </div>
+        <div class="param-card" style="--d: 0.1s">
+          <div class="param-icon">🔢</div>
+          <div class="param-text">
+            <div class="param-value">4</div>
+            <div class="param-desc">opciones por pantalla (estándar Sawtooth Software)</div>
+          </div>
+        </div>
+        <div class="param-card" style="--d: 0.2s">
+          <div class="param-icon">🔄</div>
+          <div class="param-text">
+            <div class="param-value">12 – 15</div>
+            <div class="param-desc">sets por respondente, optimizados para móvil/WhatsApp</div>
+          </div>
+        </div>
+        <div class="param-card" style="--d: 0.3s">
+          <div class="param-icon">⏱️</div>
+          <div class="param-text">
+            <div class="param-value">8 – 10 min</div>
+            <div class="param-desc">duración estimada del módulo MaxDiff</div>
+          </div>
+        </div>
+        <!-- MaxDiff WhatsApp mockup — dos preguntas lado a lado -->
+        <div class="wa-mockup">
+          <div class="wa-dual">
+            <!-- Pregunta MÁS -->
+            <div class="wa-col">
+              <div class="wa-bubble bot">
+                <span class="wa-badge">📊 Set 4 / 12 — MÁS</span><br>
+                <strong>¿Cuál mejoraría MÁS tu vida?</strong>
+                <ul class="wa-options">
+                  <li><span class="opt-num">1️⃣</span> Apoyo psicológico</li>
+                  <li><span class="opt-num">2️⃣</span> Auxilio vivienda</li>
+                  <li><span class="opt-num">3️⃣</span> Cursos de idiomas</li>
+                  <li><span class="opt-num">4️⃣</span> Viajes y turismo</li>
+                </ul>
+                <div class="wa-time">9:14 am</div>
+              </div>
+              <div class="wa-bubble user">
+                <span class="wa-user-label mejor">⭐ MEJOR</span> 2
+                <div class="wa-time">9:15 ✓✓</div>
+              </div>
+            </div>
+            <!-- Pregunta MENOS -->
+            <div class="wa-col">
+              <div class="wa-bubble bot">
+                <span class="wa-badge" style="background:#DC2626">📊 Set 4 / 12 — MENOS</span><br>
+                <strong>¿Cuál mejoraría MENOS tu vida?</strong>
+                <ul class="wa-options">
+                  <li><span class="opt-num">1️⃣</span> Apoyo psicológico</li>
+                  <li><span class="opt-num">2️⃣</span> Auxilio vivienda</li>
+                  <li><span class="opt-num">3️⃣</span> Cursos de idiomas</li>
+                  <li><span class="opt-num">4️⃣</span> Viajes y turismo</li>
+                </ul>
+                <div class="wa-time">9:15 am</div>
+              </div>
+              <div class="wa-bubble user">
+                <span class="wa-user-label peor">❌ PEOR</span> 4
+                <div class="wa-time">9:15 ✓✓</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-contact">IQI S.A.S. · iqisas@outlook.com · 314 445 3746</span>
+    <span class="sf-nav">03 / 08</span>
+  </footer>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — DISEÑO DEL FORMULARIO
+     ============================================================ -->
+<section class="slide" id="slide-4" aria-label="Diseño del Formulario">
+  <header class="slide-header">
+    <img class="sh-logo" src="../brand/Logo.jpeg" alt="IQI">
+    <span class="sh-meta">04 / 08 · DISEÑO DEL FORMULARIO</span>
+  </header>
+
+  <div class="slide-body">
+    <div class="section-label">Contenido del instrumento</div>
+    <h2 class="slide-title">18 dimensiones de bienestar,<br>segmentadas por perfil.</h2>
+
+    <div class="items-layout">
+      <div class="items-left">
+        <div class="items-intro">
+          Pregunta marco MaxDiff: <strong>"De las siguientes opciones, ¿cuál mejoraría MÁS su experiencia de vida personal fuera del trabajo?"</strong> — presentada en sets de 4 ítems, 12-15 repeticiones.
+        </div>
+        <div class="items-grid">
+          <div class="item-chip" style="--d:0.00s"><span class="item-num">1</span><span class="item-text">Acceso subsidiado a gimnasio o actividad física</span></div>
+          <div class="item-chip" style="--d:0.03s"><span class="item-num">2</span><span class="item-text">Consultas médicas preventivas para la familia</span></div>
+          <div class="item-chip" style="--d:0.06s"><span class="item-num">3</span><span class="item-text">Descuentos en alimentación saludable</span></div>
+          <div class="item-chip" style="--d:0.09s"><span class="item-num">4</span><span class="item-text">Sesiones de psicología o apoyo emocional</span></div>
+          <div class="item-chip" style="--d:0.12s"><span class="item-num">5</span><span class="item-text">Mindfulness, meditación y manejo del estrés</span></div>
+          <div class="item-chip" style="--d:0.15s"><span class="item-num">6</span><span class="item-text">Días adicionales de descanso y desconexión</span></div>
+          <div class="item-chip" style="--d:0.18s"><span class="item-num">7</span><span class="item-text">Asesoría financiera para salir de deudas</span></div>
+          <div class="item-chip" style="--d:0.21s"><span class="item-num">8</span><span class="item-text">Crédito o préstamos con tasas preferentes</span></div>
+          <div class="item-chip" style="--d:0.24s"><span class="item-num">9</span><span class="item-text">Educación en ahorro e inversión personal</span></div>
+          <div class="item-chip" style="--d:0.27s"><span class="item-num">10</span><span class="item-text">Auxilio para arriendo o cuota de vivienda</span></div>
+          <div class="item-chip" style="--d:0.30s"><span class="item-num">11</span><span class="item-text">Subsidio educativo para hijos</span></div>
+          <div class="item-chip" style="--d:0.33s"><span class="item-num">12</span><span class="item-text">Recreación y actividades para toda la familia</span></div>
+          <div class="item-chip" style="--d:0.36s"><span class="item-num">13</span><span class="item-text">Apoyo para cuidado de adultos mayores</span></div>
+          <div class="item-chip" style="--d:0.39s"><span class="item-num">14</span><span class="item-text">Becas o subsidios para estudios propios</span></div>
+          <div class="item-chip" style="--d:0.42s"><span class="item-num">15</span><span class="item-text">Cursos de idiomas y habilidades digitales</span></div>
+          <div class="item-chip" style="--d:0.45s"><span class="item-num">16</span><span class="item-text">Plataformas de entretenimiento (streaming)</span></div>
+          <div class="item-chip" style="--d:0.48s"><span class="item-num">17</span><span class="item-text">Descuentos en viajes y turismo nacional</span></div>
+          <div class="item-chip" style="--d:0.51s"><span class="item-num">18</span><span class="item-text">Actividades deportivas y culturales locales</span></div>
+        </div>
+      </div>
+
+      <div class="items-right">
+        <div class="seg-card civil" style="--d: 0.1s">
+          <div class="seg-title">Por Estado Civil</div>
+          <ul class="seg-items">
+            <li><strong>Solteros:</strong> ítems 4, 6, 15 (salud mental, descanso, desarrollo)</li>
+            <li><strong>Con familia:</strong> ítems 11, 10, 7 (hijos, vivienda, deudas)</li>
+            <li>Hipótesis validada por DANE ECV 2024</li>
+          </ul>
+        </div>
+        <div class="seg-card region" style="--d: 0.22s">
+          <div class="seg-title">Por Región</div>
+          <ul class="seg-items">
+            <li><strong>Bogotá</strong> (IPM 0.021): salud mental, tiempo libre</li>
+            <li><strong>Costa Caribe</strong> (IPM 0.076): empleo, salud, recreación</li>
+            <li><strong>Pacífico</strong> (IPM 0.048): vivienda, conectividad</li>
+            <li><strong>Central/Eje</strong> (IPM 0.043): educación, familia</li>
+          </ul>
+        </div>
+        <div class="seg-card strato" style="--d: 0.34s">
+          <div class="seg-title">Por Estrato</div>
+          <ul class="seg-items">
+            <li><strong>Estrato 1-2:</strong> salud, vivienda, educación básica</li>
+            <li><strong>Estrato 3:</strong> movilidad social, capacitación, salud</li>
+            <li><strong>Estrato 4-5:</strong> equilibrio vida-trabajo, experiencias</li>
+            <li>Alerta: brecha digital real en estratos 1-2</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-contact">IQI S.A.S. · iqisas@outlook.com · 314 445 3746</span>
+    <span class="sf-nav">04 / 08</span>
+  </footer>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — METODOLOGÍA WHATSAPP
+     ============================================================ -->
+<section class="slide" id="slide-5" aria-label="Metodología WhatsApp">
+  <header class="slide-header">
+    <img class="sh-logo" src="../brand/Logo.jpeg" alt="IQI">
+    <span class="sh-meta">05 / 08 · CANAL DE APLICACIÓN</span>
+  </header>
+
+  <div class="slide-body">
+    <div class="section-label">Por qué WhatsApp Business</div>
+    <h2 class="slide-title">El canal donde ya está<br>su fuerza laboral.</h2>
+
+    <div class="method-layout">
+      <div class="method-left">
+        <div class="advantage-row" style="--d:0s">
+          <div class="adv-icon">📬</div>
+          <div class="adv-content">
+            <div class="adv-title">Tasa de apertura excepcional</div>
+            <div class="adv-desc">Los mensajes de WhatsApp se abren en los primeros 3 minutos en el 90% de los casos, frente al 20-30% del correo electrónico.</div>
+          </div>
+          <div class="adv-metric">98% apertura</div>
+        </div>
+        <div class="advantage-row" style="--d:0.08s">
+          <div class="adv-icon">💬</div>
+          <div class="adv-content">
+            <div class="adv-title">Experiencia conversacional nativa</div>
+            <div class="adv-desc">Flujo tipo chat: preguntas en bloques de 6-8 ítems. El colaborador responde desde su celular sin instalar nada ni acceder a formularios externos.</div>
+          </div>
+          <div class="adv-metric">Sin fricciones</div>
+        </div>
+        <div class="advantage-row" style="--d:0.16s">
+          <div class="adv-icon">🔄</div>
+          <div class="adv-content">
+            <div class="adv-title">Respuesta interrumpible y reanudable</div>
+            <div class="adv-desc">El sistema guarda cada respuesta de forma individual. Si el colaborador interrumpe la encuesta, puede retomarla exactamente donde la dejó.</div>
+          </div>
+          <div class="adv-metric">Cero pérdida</div>
+        </div>
+        <div class="advantage-row" style="--d:0.24s">
+          <div class="adv-icon">📊</div>
+          <div class="adv-content">
+            <div class="adv-title">Monitoreo en tiempo real</div>
+            <div class="adv-desc">Dashboard de administración con avance diario por área, región y estrato. Permite identificar grupos con baja respuesta para acciones focalizadas.</div>
+          </div>
+          <div class="adv-metric">Diario</div>
+        </div>
+        <div class="advantage-row" style="--d:0.32s">
+          <div class="adv-icon">🔒</div>
+          <div class="adv-content">
+            <div class="adv-title">Cumplimiento Ley 1581 integrado</div>
+            <div class="adv-desc">Opt-in previo, opt-out claro en primer mensaje, cifrado AES-256 en BD y anonimización de reportes entregados al cliente.</div>
+          </div>
+          <div class="adv-metric">Habeas Data</div>
+        </div>
+      </div>
+
+      <div class="method-right">
+        <div class="escalation-title">Protocolo de escalamiento progresivo</div>
+        <div class="escalation-step" style="--d:0s">
+          <div class="esc-step-num">1</div>
+          <div class="esc-content">
+            <div class="esc-title">Mensaje inicial</div>
+            <div class="esc-desc">Envío al 100% — con pre-comunicación de RRHH</div>
+          </div>
+          <div class="esc-rate">Día 1</div>
+        </div>
+        <div class="escalation-step" style="--d:0.1s">
+          <div class="esc-step-num">2</div>
+          <div class="esc-content">
+            <div class="esc-title">Recordatorio automático</div>
+            <div class="esc-desc">A quienes no hayan respondido — mensaje personalizado</div>
+          </div>
+          <div class="esc-rate">Día 3</div>
+        </div>
+        <div class="escalation-step" style="--d:0.2s">
+          <div class="esc-step-num">3</div>
+          <div class="esc-content">
+            <div class="esc-title">Segundo recordatorio</div>
+            <div class="esc-desc">Con avance parcial del colaborador si inició</div>
+          </div>
+          <div class="esc-rate">Día 7</div>
+        </div>
+        <div class="escalation-step" style="--d:0.3s">
+          <div class="esc-step-num">4</div>
+          <div class="esc-content">
+            <div class="esc-title">Recordatorio de cierre</div>
+            <div class="esc-desc">Mensaje urgente — fecha límite visible</div>
+          </div>
+          <div class="esc-rate">Día 10</div>
+        </div>
+        <div class="escalation-step" style="--d:0.4s; background: var(--navy); border-color: var(--navy);">
+          <div class="esc-step-num" style="background: rgba(255,255,255,0.2)">✓</div>
+          <div class="esc-content">
+            <div class="esc-title" style="color:white">Tasa de respuesta estimada</div>
+            <div class="esc-desc" style="color:rgba(255,255,255,0.6)">Aplicando protocolo digital completo (4 contactos)</div>
+          </div>
+          <div class="esc-rate" style="color:#4ADE80">~20%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-contact">IQI S.A.S. · iqisas@outlook.com · 314 445 3746</span>
+    <span class="sf-nav">05 / 08</span>
+  </footer>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — PLAN DE TRABAJO
+     ============================================================ -->
+<section class="slide" id="slide-6" aria-label="Plan de Trabajo">
+  <header class="slide-header">
+    <img class="sh-logo" src="../brand/Logo.jpeg" alt="IQI">
+    <span class="sh-meta">06 / 08 · PLAN DE TRABAJO</span>
+  </header>
+
+  <div class="slide-body">
+    <div class="section-label">Hoja de ruta</div>
+    <h2 class="slide-title">Cinco fases, un mes de campo,<br>resultados accionables.</h2>
+
+    <div class="plan-layout">
+      <div class="plan-phases">
+        <div class="phase-card" style="--d:0s">
+          <div class="phase-num">01</div>
+          <div class="phase-name">Inicio</div>
+          <div class="phase-dur">1 sesión · Semana 1</div>
+          <ul class="phase-items">
+            <li>Reunión de kick-off con equipo de RRHH</li>
+            <li>Entrega de base de datos de colaboradores</li>
+            <li>Definición de segmentos de análisis</li>
+            <li>Firma de acuerdo de confidencialidad y Habeas Data</li>
+          </ul>
+        </div>
+        <div class="phase-card" style="--d:0.12s">
+          <div class="phase-num">02</div>
+          <div class="phase-name">Diseño</div>
+          <div class="phase-dur">1 semana · Semana 2</div>
+          <ul class="phase-items">
+            <li>Diseño y validación del formulario socioeconómico</li>
+            <li>Configuración del módulo MaxDiff (18 ítems)</li>
+            <li>Aprobación de plantillas WhatsApp por Meta</li>
+            <li>Pre-comunicación interna de RRHH a colaboradores</li>
+          </ul>
+        </div>
+        <div class="phase-card" style="--d:0.24s">
+          <div class="phase-num">03</div>
+          <div class="phase-name">Campo</div>
+          <div class="phase-dur">2 semanas · Sem. 3-4</div>
+          <ul class="phase-items">
+            <li>Lanzamiento gradual: lotes de 500 colaboradores</li>
+            <li>Envío inicial al 100% de la base</li>
+            <li>Recordatorio automático a las 8h (dentro de ventana)</li>
+            <li>Reporte diario de avance por área y región</li>
+          </ul>
+        </div>
+        <div class="phase-card" style="--d:0.36s">
+          <div class="phase-num">04</div>
+          <div class="phase-name">Seguimiento</div>
+          <div class="phase-dur">2 semanas · Sem. 5-6</div>
+          <ul class="phase-items">
+            <li>Recordatorio +3 días a no-respondientes</li>
+            <li>Recordatorio de cierre +7 días</li>
+            <li>Monitoreo de Quality Rating WhatsApp</li>
+            <li>Alerta a RRHH de segmentos con baja respuesta</li>
+          </ul>
+        </div>
+        <div class="phase-card" style="--d:0.48s">
+          <div class="phase-num">05</div>
+          <div class="phase-name">Cierre</div>
+          <div class="phase-dur">1 sesión · Semana 7</div>
+          <ul class="phase-items">
+            <li>Análisis estadístico y segmentación de resultados</li>
+            <li>Informe ejecutivo con hallazgos MaxDiff por perfil</li>
+            <li>Presentación de resultados (virtual o presencial)</li>
+            <li>Entrega de base de datos anonimizada</li>
+          </ul>
+        </div>
+      </div>
+      <div class="plan-note">
+        <strong>Nota operativa:</strong> El lanzamiento gradual en lotes de 500 colaboradores garantiza la estabilidad de la plataforma y permite ajustes antes del despliegue masivo. La plataforma maneja hasta 60 respuestas simultáneas por segundo sin degradación de servicio.
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-contact">IQI S.A.S. · iqisas@outlook.com · 314 445 3746</span>
+    <span class="sf-nav">06 / 08</span>
+  </footer>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — ENTREGABLES
+     ============================================================ -->
+<section class="slide" id="slide-7" aria-label="Entregables">
+  <header class="slide-header">
+    <img class="sh-logo" src="../brand/Logo.jpeg" alt="IQI">
+    <span class="sh-meta">07 / 08 · ENTREGABLES Y CUMPLIMIENTO</span>
+  </header>
+
+  <div class="slide-body">
+    <div class="section-label">Lo que recibe la organización</div>
+    <h2 class="slide-title">Entregables de alto valor<br>listos para la toma de decisiones.</h2>
+
+    <div class="deliverables-layout">
+      <div class="deliv-left">
+        <div class="deliv-item" style="--d:0s">
+          <div class="deliv-icon">📋</div>
+          <div class="deliv-content">
+            <div class="deliv-title">Formulario socioeconómico validado</div>
+            <div class="deliv-desc">Instrumento diseñado a la medida de su organización, con módulo MaxDiff integrado y set de práctica incluido para reducir el abandono.</div>
+          </div>
+        </div>
+        <div class="deliv-item" style="--d:0.1s">
+          <div class="deliv-icon">📊</div>
+          <div class="deliv-content">
+            <div class="deliv-title">Informe ejecutivo con análisis MaxDiff</div>
+            <div class="deliv-desc">Rankings de preferencias por dimensión de bienestar, segmentados por estado civil, región colombiana, estrato socioeconómico y área organizacional.</div>
+          </div>
+        </div>
+        <div class="deliv-item" style="--d:0.2s">
+          <div class="deliv-icon">🗄️</div>
+          <div class="deliv-content">
+            <div class="deliv-title">Base de datos consolidada y anonimizada</div>
+            <div class="deliv-desc">Exportación en formato Excel/CSV con todas las respuestas, lista para cruzarse con los sistemas de información de RRHH de la organización.</div>
+          </div>
+        </div>
+        <div class="deliv-item" style="--d:0.3s">
+          <div class="deliv-icon">🎤</div>
+          <div class="deliv-content">
+            <div class="deliv-title">Presentación ejecutiva de resultados</div>
+            <div class="deliv-desc">Sesión de presentación con la dirección de RRHH y stakeholders clave — virtual o presencial. Duración: 60-90 minutos con espacio para preguntas.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="deliv-right">
+        <div class="deliv-item" style="--d:0.4s">
+          <div class="deliv-icon">📈</div>
+          <div class="deliv-content">
+            <div class="deliv-title">Reportes de avance diarios</div>
+            <div class="deliv-desc">Durante el mes de campo: reporte automatizado con tasa de respuesta acumulada, distribución por área y alertas de grupos de bajo avance.</div>
+          </div>
+        </div>
+        <div class="deliv-item" style="--d:0.5s">
+          <div class="deliv-icon">🔍</div>
+          <div class="deliv-content">
+            <div class="deliv-title">Análisis de brechas por segmento</div>
+            <div class="deliv-desc">Identificación de los ítems de bienestar con mayor diferencia entre segmentos demográficos — insumo directo para el diseño de la política de beneficios.</div>
+          </div>
+        </div>
+
+        <div class="compliance-box">
+          <h3>Cumplimiento normativo incluido</h3>
+          <ul class="compliance-list">
+            <li>Aviso de privacidad y consentimiento expreso (Ley 1581/2012)</li>
+            <li>Opt-in previo y opt-out en primer mensaje</li>
+            <li>Cifrado AES-256 para datos sensibles en base de datos</li>
+            <li>Anonimización de reportes — sin datos individuales identificables</li>
+            <li>Protocolo de eliminación de datos al cierre del proyecto</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-contact">IQI S.A.S. · iqisas@outlook.com · 314 445 3746</span>
+    <span class="sf-nav">07 / 08</span>
+  </footer>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — INVERSIÓN Y PRÓXIMOS PASOS
+     ============================================================ -->
+<section class="slide" id="slide-8" aria-label="Inversión y Próximos Pasos">
+  <header class="slide-header">
+    <img class="sh-logo" src="../brand/Logo.jpeg" alt="IQI">
+    <span class="sh-meta">08 / 08 · ESTRUCTURA DE INVERSIÓN</span>
+  </header>
+
+  <div class="slide-body">
+    <div class="section-label">Inversión y próximos pasos</div>
+    <h2 class="slide-title">Diagnóstico para 6.000 colaboradores.<br>Decisiones de largo plazo.</h2>
+
+    <div class="invest-layout">
+      <div class="invest-left">
+        <div class="price-card">
+          <div class="price-label">Valor de la propuesta · <span style="color:#FCD34D;font-weight:700">Válida 30 días</span></div>
+          <div class="price-original">$ 25.000.000 COP</div>
+          <div class="price-main">$22.500.000</div>
+          <div class="price-sub">COP + IVA · Pago único</div>
+          <div class="price-discount-badge">
+            <span>✓</span> Descuento especial del 10%
+          </div>
+        </div>
+
+        <div class="includes-box">
+          <h3>Incluye</h3>
+          <ul class="includes-list">
+            <li>Diseño del formulario con módulo MaxDiff (18 ítems)</li>
+            <li>Aplicación a 6.000 colaboradores vía WhatsApp</li>
+            <li>1 mes de campo con recordatorios automáticos</li>
+            <li>Reportes de avance diarios</li>
+            <li>Informe ejecutivo segmentado por perfil</li>
+            <li>Presentación de resultados</li>
+            <li>Base de datos consolidada y cumplimiento Ley 1581</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="invest-right">
+        <div class="next-title">Próximos pasos</div>
+        <div class="next-step" style="--d:0s; flex-direction:column; gap:6px;">
+          <div class="ns-content" style="width:100%">
+            <p style="font-size:var(--small-size); color:var(--gray-700); line-height:1.55; margin:0;">
+              Para iniciar, el cliente confirma la aprobación por escrito o correo electrónico.
+              A continuación se firma el acuerdo de confidencialidad, se realiza la reunión de kick-off con RRHH
+              y en la primera semana comienza el diseño del formulario con validación conjunta antes del lanzamiento.
+            </p>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-name">IQI S.A.S.</div>
+          <div class="contact-role">Investigación · Consultoría · Información</div>
+          <div class="contact-details">
+            <span class="contact-line">📧 iqisas@outlook.com</span>
+            <span class="contact-line">📱 314 445 3746</span>
+            <span class="contact-line">📍 Bogotá, Colombia · NIT 901.141.193-6</span>
+          </div>
+          <div class="validity-note" style="border-color:rgba(252,211,77,0.3); color:#FCD34D; font-weight:600; font-size:var(--small-size);">
+            ⏳ Vigencia de la oferta: 30 días calendario a partir de la fecha de envío.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="slide-footer">
+    <span class="sf-contact">IQI S.A.S. · iqisas@outlook.com · 314 445 3746</span>
+    <span class="sf-nav">08 / 08</span>
+  </footer>
+</section>
+
+<script>
+// =============================================
+// NAV DOTS + KEYBOARD
+// =============================================
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dots   = Array.from(document.querySelectorAll('.nav-dot'));
+let current  = 0;
+let isScrolling = false;
+
+function goTo(index) {
+    if (index < 0 || index >= slides.length) return;
+    current = index;
+    slides[index].scrollIntoView({ behavior: 'smooth' });
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+}
+
+// Intersection Observer to keep dots in sync
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const idx = slides.indexOf(entry.target);
+            if (idx !== -1) {
+                current = idx;
+                dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+            }
+        }
+    });
+}, { threshold: 0.6 });
+
+slides.forEach(s => observer.observe(s));
+
+dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault(); goTo(current + 1);
+    }
+    if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault(); goTo(current - 1);
+    }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End')  { e.preventDefault(); goTo(slides.length - 1); }
+});
+</script>
+
+<style>
+@media print {
+  /* Tamaño de página horizontal sin márgenes */
+  @page { size: A4 landscape; margin: 0; }
+
+  /* Liberar el overflow que bloquea el scroll en impresión */
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+    background: white !important;
+  }
+
+  /* Cada slide = una página exacta */
+  .slide {
+    width: 100% !important;
+    height: 100vh !important;
+    overflow: visible !important;
+    scroll-snap-align: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    position: relative !important;
+  }
+
+  /* Liberar overflow en todos los contenedores internos */
+  .slide-body, .slide-header, .slide-footer,
+  .s1-layout, .s1-center, .s1-bottom,
+  .s2-content, .s2-left, .s2-right,
+  .maxdiff-intro, .maxdiff-left, .maxdiff-right,
+  .items-layout, .items-left, .items-right, .items-grid,
+  .method-layout, .method-left, .method-right,
+  .plan-layout, .plan-phases,
+  .deliverables-layout, .deliv-left, .deliv-right,
+  .invest-layout, .invest-left, .invest-right,
+  .compare-table, .stat-card, .context-block,
+  .param-card, .seg-card, .phase-card,
+  .advantage-row, .escalation-step, .deliv-item,
+  .price-card, .includes-box, .contact-card,
+  .wa-mockup, .wa-dual, .wa-col {
+    overflow: visible !important;
+  }
+
+  /* Ocultar controles de navegación */
+  .nav-dots, .key-hint { display: none !important; }
+
+  /* Resolver todas las animaciones de entrada (opacity: 0 → 1) */
+  [style*="animation"],
+  .s1-top, .s1-eyebrow, .s1-title, .s1-subtitle,
+  .s1-pills, .s1-bottom,
+  .context-block, .stat-card,
+  .maxdiff-desc, .compare-table, .param-card,
+  .wa-mockup,
+  .item-chip, .items-intro, .seg-card,
+  .advantage-row, .escalation-step,
+  .phase-card, .plan-note,
+  .deliv-item, .compliance-box,
+  .price-card, .includes-box,
+  .next-title, .next-step, .contact-card {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Slide 1 — mantener fondo navy para que el PDF conserve identidad corporativa */
+  #slide-1 { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* Todos los slides con fondo de color conservan sus colores */
+  .slide, .stat-card, .phase-card, .compliance-box,
+  .price-card, .contact-card, .maxdiff-desc,
+  .seg-card, .wa-mockup, .wa-bubble {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+
+</body>
+</html>
