@@ -1,0 +1,32 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Reputación — ícono">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F3460;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1B4F8A;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#38BDF8;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0EA5E9;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="dotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FCD34D;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGrad)"/>
+
+  <!-- Bar chart — 3 barras de reputación ascendentes -->
+  <!-- Barra 1: baja -->
+  <rect x="11" y="40" width="10" height="14" rx="3" fill="rgba(255,255,255,0.35)"/>
+  <!-- Barra 2: media -->
+  <rect x="27" y="28" width="10" height="26" rx="3" fill="rgba(255,255,255,0.6)"/>
+  <!-- Barra 3: alta — highlight en cyan -->
+  <rect x="43" y="16" width="10" height="38" rx="3" fill="url(#barGrad)"/>
+
+  <!-- Estrella de excelencia en la cima de la barra más alta -->
+  <circle cx="48" cy="11" r="5" fill="url(#dotGrad)"/>
+  <path d="M48 7.5 L48.9 10.1 L51.7 10.1 L49.4 11.8 L50.3 14.4 L48 12.7 L45.7 14.4 L46.6 11.8 L44.3 10.1 L47.1 10.1 Z"
+        fill="#FFFBEB" opacity="0.9"/>
+</svg>
